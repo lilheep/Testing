@@ -1,4 +1,4 @@
-package org.example.constants;
+package constants;
 
 import io.github.cdimascio.dotenv.Dotenv;
 

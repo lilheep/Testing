@@ -1,4 +1,4 @@
-package org.example.api;
+package api;
 
 import retrofit2.http.GET;
 
