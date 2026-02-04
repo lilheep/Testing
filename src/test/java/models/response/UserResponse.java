@@ -1,10 +1,10 @@
-package models;
+package models.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
-public class User {
+public class UserResponse {
     @JsonProperty("id")
     private int id;
     @JsonProperty("email")
