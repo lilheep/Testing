@@ -22,6 +22,4 @@ public interface UserService {
     @GET("/api/users/{id}")
     Call<GetUserByIdResponse> getUserById(@Header("x-api-key") String token,
                                           @Path("id") int id);
-
-    // ? мб изменить передачу токена в @Header
 }

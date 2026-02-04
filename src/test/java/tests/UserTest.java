@@ -16,12 +16,10 @@ import java.util.List;
 public class UserTest {
     private static final ApiClient apiclient = new ApiClient();
     private static final UserService userService = apiclient.getUserService();
-    // ? вынести это создание перед выполнением тестов (Before)
-
 
     @Test
     public void test1() throws IOException {
-        int page = 1; // ? как гарантировать уникальность передаваемых данных для проверки
+        int page = 1;
         Response<GetUsersResponse> response = userService
                 .getUserList(ApiConstants.getToken(), page)
                 .execute();
@@ -44,4 +42,6 @@ public class UserTest {
 
         Assertions.assertThat(response.isSuccessful()).isTrue();
     }
+
+    // сделать тесты: проверка количества записей на странице, формат возвращаемого ответа
 }
