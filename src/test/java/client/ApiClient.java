@@ -1,5 +1,6 @@
 package client;
 
+import api.ResourceService;
 import api.UserService;
 import constants.ApiConstants;
 import lombok.Getter;
@@ -14,6 +15,10 @@ public class ApiClient {
 
     @Getter
     private final UserService userService = retrofit.create(UserService.class);
+
+    @Getter
+    private final ResourceService resourceService = retrofit.create(ResourceService.class);
+
     /*
     1. мб сделать интерфейс для реализации сервисов
     2. ? изменить структуру для возврата service

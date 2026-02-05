@@ -13,8 +13,8 @@ public class Names implements NamesImpl {
     private final String pathFileFirstName = "src\\main\\resources\\firstName.txt";
     private final String pathFileSurname = "src\\main\\resources\\firstName.txt";
     private BufferedReader bufferedReader;
-    private List<String> listNames;
-    private List<String> listSurnames;
+    private List<String> listNames = new ArrayList<>();
+    private List<String> listSurnames = new ArrayList<>();
 
     @Override
     public List<String> getListFirstName() {

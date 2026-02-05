@@ -41,4 +41,6 @@ public class RandomUtil {
     public int generateId() {
         return random.nextInt(13, 1000);
     }
+
+    public int generateValidId() { return random.nextInt(1, 13); }
 }

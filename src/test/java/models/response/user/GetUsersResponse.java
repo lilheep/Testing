@@ -1,11 +1,13 @@
-package models.response;
+package models.response.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class GetUsersResponse {
     @JsonProperty("page")
     private int page;
@@ -17,8 +19,4 @@ public class GetUsersResponse {
     private int totalPages;
     @JsonProperty("data")
     private List<UserResponse> data;
-    @JsonProperty("support")
-    private SupportResponse support;
-    @JsonProperty("_meta")
-    private MetaResponse meta;
 }
