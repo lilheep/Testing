@@ -17,9 +17,9 @@ public class RandomUtil {
     public String generateEmail(String domain) {
         StringBuilder localPart = new StringBuilder();
         for (int i = 0; i < 13; i++) {
-            localPart.append(allowedSymbols.charAt(random.nextInt(allowedSymbols.length() + 1)));
+            localPart.append(allowedSymbols.charAt(random.nextInt(allowedSymbols.length())));
         }
-        return localPart.toString() + "@" + domain;
+        return localPart + "@" + domain;
     }
 
     public String generateFirstName() {
@@ -33,7 +33,7 @@ public class RandomUtil {
     public String generatePassword() {
         StringBuilder password = new StringBuilder();
         for (int i = 0; i < 9; i++) {
-            password.append(allowedSymbols.charAt(random.nextInt(allowedSymbols.length() + 1)));
+            password.append(allowedSymbols.charAt(random.nextInt(allowedSymbols.length())));
         }
         return password.toString();
     }
