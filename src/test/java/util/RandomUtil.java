@@ -19,7 +19,7 @@ public class RandomUtil {
         for (int i = 0; i < 13; i++) {
             localPart.append(allowedSymbols.charAt(random.nextInt(allowedSymbols.length() + 1)));
         }
-        return localPart + "@" + domain;
+        return localPart.toString() + "@" + domain;
     }
 
     public String generateFirstName() {
