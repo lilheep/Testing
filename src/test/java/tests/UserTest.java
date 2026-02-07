@@ -1,173 +1,120 @@
 package tests;
 
-import api.UserService;
-import client.ApiClient;
-import constants.ApiConstants;
-import models.request.RegisterOrLoginUserRequest;
-import models.request.UpdateUserRequest;
 import models.response.user.*;
 import org.assertj.core.api.Assertions;
 import org.testng.annotations.Test;
 import retrofit2.Response;
-import util.RandomUtil;
+import tests.steps.UserSteps;
 
 import java.io.IOException;
 
 public class UserTest {
+    private static final UserSteps userStep = new UserSteps();
     @Test
-    public void test1() throws IOException {
+    public void getUsersTest() throws IOException {
         int page = 1;
         int perPage = 6;
         int total = 12;
-        Response<GetUsersResponse> response = userService
-                .getUserList(ApiConstants.getToken())
-                .execute();
+        Response<GetUsersResponse> response = userStep.getUserList();
 
-        Assertions.assertThat(response.isSuccessful());
-        GetUsersResponse responseBody = response.body();
-        Assertions.assertThat(responseBody).isNotNull();
-
-        Assertions.assertThat(responseBody.getPage()).isEqualTo(page);
-        Assertions.assertThat(responseBody.getPerPage()).isEqualTo(perPage);
-        Assertions.assertThat(responseBody.getData().size()).isEqualTo(perPage);
-        Assertions.assertThat(responseBody.getTotal()).isEqualTo(total);
+        userStep.checkResponseIsSuccessful(response);
+        GetUsersResponse responseBody = userStep.checkResponseBodyNotNull(response);
+        userStep.checkListUsers(responseBody, page, perPage, total);
     }
 
     @Test
-    public void test2() throws IOException {
+    public void getUsersOnPageTest() throws IOException {
         int page = 1;
         int perPage = 6;
-        Response<GetUsersResponse> response = userService
-                .getUserList(ApiConstants.getToken(), page)
-                .execute();
+        int total = 12;
+        Response<GetUsersResponse> response = userStep.getUserList(page);
 
-        Assertions.assertThat(response.isSuccessful());
-
-        GetUsersResponse responseBody = response.body();
-        Assertions.assertThat(responseBody).isNotNull();
-
-        Assertions.assertThat(responseBody.getPage()).isEqualTo(page);
-        Assertions.assertThat(responseBody.getPerPage()).isEqualTo(perPage);
-        Assertions.assertThat(responseBody.getData().size()).isEqualTo(perPage);
+        userStep.checkResponseIsSuccessful(response);
+        GetUsersResponse responseBody = userStep.checkResponseBodyNotNull(response);
+        userStep.checkListUsers(responseBody, page, perPage, total);
     }
 
     @Test
-    public void test3() throws IOException {
+    public void getUsersOnPageAndPerTest() throws IOException {
         int page = 2;
         int perPage = 3;
+        int total = 12;
 
-        Response<GetUsersResponse> response = userService.
-                getUserList(ApiConstants.getToken(), page, perPage)
-                .execute();
-
-        Assertions.assertThat(response.isSuccessful());
-
-        GetUsersResponse responseBody = response.body();
-        Assertions.assertThat(responseBody).isNotNull();
-
-        Assertions.assertThat(responseBody.getPage()).isEqualTo(page);
-        Assertions.assertThat(responseBody.getPerPage()).isEqualTo(perPage);
-        Assertions.assertThat(responseBody.getData().size()).isEqualTo(perPage);
+        Response<GetUsersResponse> response = userStep.getUserList(page, perPage);
+        userStep.checkResponseIsSuccessful(response);
+        GetUsersResponse responseBody = userStep.checkResponseBodyNotNull(response);
+        userStep.checkListUsers(responseBody, page, perPage, total);
     }
 
     @Test
-    public void test4() throws IOException {
-        int id = random.generateValidId();
-        Response<GetUserByIdResponse> response = userService
-                .getUserById(ApiConstants.getToken(), id)
-                .execute();
+    public void getUserByIdTest() throws IOException {
+        int id = userStep.generateValidId();
+        Response<GetUserByIdResponse> response = userStep.getUserById(id);
 
-        Assertions.assertThat(response.isSuccessful());
-        GetUserByIdResponse responseBody = response.body();
-
-        Assertions.assertThat(responseBody).isNotNull();
-
-        UserResponse userData = responseBody.getData();
-        Assertions.assertThat(userData.getId()).isEqualTo(id);
+        userStep.checkResponseIsSuccessful(response);
+        GetUserByIdResponse responseBody = userStep.checkResponseBodyNotNull(response);
+        userStep.checkUserById(responseBody, id);
     }
 
     @Test
-    public void test9() throws IOException {
-        int id = random.generateValidId();
+    public void registerUserTest() throws IOException {
+        int id = userStep.generateValidId();
         String email;
-        String password = random.generatePassword();
+        String password = userStep.generatePassword();
 
-        Response<GetUserByIdResponse> responseUser = userService
-                .getUserById(ApiConstants.getToken(), id)
-                .execute();
+        Response<GetUserByIdResponse> responseUser = userStep.getUserById(id);
+        userStep.checkResponseIsSuccessful(responseUser);
 
-        Assertions.assertThat(responseUser.isSuccessful());
-
-        GetUserByIdResponse responseUserBody = responseUser.body();
-        Assertions.assertThat(responseUserBody).isNotNull();
-
+        GetUserByIdResponse responseUserBody = userStep.checkResponseBodyNotNull(responseUser);
         email = responseUserBody.getData().getEmail();
 
-        Response<RegisterUserResponse> responseRegister = userService
-                .registerUser(ApiConstants.getToken(), new RegisterOrLoginUserRequest(email, password))
-                .execute();
-
-        Assertions.assertThat(responseRegister.isSuccessful());
+        Response<RegisterUserResponse> responseRegister = userStep.registerUser(email, password);
+        userStep.checkResponseIsSuccessful(responseRegister);
 
         RegisterUserResponse responseRegisterBody = responseRegister.body();
         Assertions.assertThat(responseRegisterBody).isNotNull();
 
-        Assertions.assertThat(responseUserBody.getData().getId()).isEqualTo(responseRegisterBody.getId());
-        Assertions.assertThat(responseUserBody.getData().getEmail()).isEqualTo(email);
+        userStep.checkRegistration(responseRegisterBody, responseUserBody, email);
     }
 
     @Test
-    public void test10() throws IOException {
-        int id = random.generateValidId();
+    public void loginUserTest() throws IOException {
+        int id = userStep.generateValidId();
         String email;
-        String password = random.generatePassword();
+        String password = userStep.generatePassword();
 
-        Response<GetUserByIdResponse> responseUser = userService
-                .getUserById(ApiConstants.getToken(), id)
-                .execute();
+        Response<GetUserByIdResponse> responseUser = userStep.getUserById(id);
+        userStep.checkResponseIsSuccessful(responseUser);
 
-        Assertions.assertThat(responseUser.isSuccessful());
-
-        GetUserByIdResponse responseUserBody = responseUser.body();
-        Assertions.assertThat(responseUserBody).isNotNull();
-
+        GetUserByIdResponse responseUserBody = userStep.checkResponseBodyNotNull(responseUser);
         email = responseUserBody.getData().getEmail();
 
-        Response<LoginUserResponse> responseLogin = userService
-                .loginUser(ApiConstants.getToken(), new RegisterOrLoginUserRequest(email, password))
-                .execute();
+        Response<LoginUserResponse> responseLogin = userStep.loginUser(email, password);
+        userStep.checkResponseIsSuccessful(responseLogin);
 
-        Assertions.assertThat(responseLogin.isSuccessful());
-
-        LoginUserResponse responseLoginBody = responseLogin.body();
-        Assertions.assertThat(responseLoginBody).isNotNull();
+        LoginUserResponse responseLoginBody = userStep.checkResponseBodyNotNull(responseLogin);
     }
 
     @Test
-    public void test11() throws IOException {
-        int id = random.generateValidId();
-        String email = random.generateEmail("gmail.com");
-        String firstName = random.generateFirstName();
-        String lastName = random.generateSurname();
+    public void updateUserTest() throws IOException {
+        int id = userStep.generateValidId();
+        String email = userStep.generateEmail("gmail.com");
+        String firstName = userStep.generateFirstName();
+        String lastName = userStep.generateLastName();
         String avatar = "https://reqres.in/img/faces/13-image.jpg";
 
-        Response<UpdateUserResponse> response = userService
-                .updateUser(ApiConstants.getToken(), id, new UpdateUserRequest(
-                        email, firstName, lastName, avatar)
-                ).execute();
+        Response<UpdateUserResponse> response = userStep.updateUser(
+                id, email, firstName, lastName, avatar
+        );
 
-        Assertions.assertThat(response.isSuccessful());
+        userStep.checkResponseIsSuccessful(response);
     }
     @Test
-    public void test12() throws IOException {
-        int id = random.generateValidId();
-        Response<Void> response = userService
-                .deleteUser(ApiConstants.getToken(), id)
-                .execute();
+    public void deleteUserTest() throws IOException {
+        int id = userStep.generateValidId();
+        Response<Void> response = userStep.deleteUser(id);
 
-        Assertions.assertThat(response.isSuccessful())
-                .withFailMessage("Incorrect status code: " + response.code())
-                .isTrue();
+        userStep.checkResponseIsSuccessful(response);
 
     }
 }

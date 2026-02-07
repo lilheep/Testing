@@ -4,9 +4,9 @@ import api.UserService;
 import client.ApiClient;
 import constants.ApiConstants;
 import io.qameta.allure.Step;
-import models.response.user.GetUserByIdResponse;
-import models.response.user.GetUsersResponse;
-import models.response.user.UserResponse;
+import models.request.RegisterOrLoginUserRequest;
+import models.request.UpdateUserRequest;
+import models.response.user.*;
 import org.assertj.core.api.Assertions;
 import retrofit2.Response;
 import util.RandomUtil;
@@ -39,6 +39,35 @@ public class UserSteps {
         return userService.getUserById(ApiConstants.getToken(), id).execute();
     }
 
+    @Step("Registration user")
+    public Response<RegisterUserResponse> registerUser(String email, String password) throws IOException {
+        return userService
+                .registerUser(ApiConstants.getToken(), new RegisterOrLoginUserRequest(email, password))
+                .execute();
+    }
+
+    @Step("Login user")
+    public Response<LoginUserResponse> loginUser(String email, String password) throws IOException {
+        return userService
+                .loginUser(ApiConstants.getToken(), new RegisterOrLoginUserRequest(email, password))
+                .execute();
+    }
+
+    @Step("Update user")
+    public Response<UpdateUserResponse> updateUser (
+            int id, String email, String firstName, String lastName, String avatar) throws IOException {
+        return userService.updateUser(
+                ApiConstants.getToken(), id, new UpdateUserRequest(email, firstName, lastName, avatar))
+                .execute();
+    }
+
+    @Step("Delete user")
+    public Response<Void> deleteUser(int id) throws IOException {
+        return userService.deleteUser(ApiConstants.getToken(), id)
+                .execute();
+    }
+
+
     @Step("Generating valid user ID")
     public int generateValidId() {
         return random.generateValidId();
@@ -48,6 +77,15 @@ public class UserSteps {
     public String generatePassword() {
         return random.generatePassword();
     }
+
+    @Step("Generating email")
+    public String generateEmail(String domain) { return random.generateEmail(domain); }
+
+    @Step("Generating first name")
+    public String generateFirstName() { return random.generateFirstName(); }
+
+    @Step("Generate lastname")
+    public String generateLastName() { return random.generateSurname(); }
 
     @Step("Checking success response")
     public void checkResponseIsSuccessful(Response<?> response) {
@@ -85,11 +123,24 @@ public class UserSteps {
     }
 
     @Step("Check user id")
-    public void CheckUserById(UserResponse responseBody, int id) {
-        Assertions.assertThat(responseBody.getId())
+    public void checkUserById(GetUserByIdResponse responseBody, int id) {
+        Assertions.assertThat(responseBody.getData().getId())
                 .withFailMessage("Not equal id")
                 .isEqualTo(id);
     }
+
+    @Step("Check user registration")
+    public void checkRegistration(RegisterUserResponse registerBody, GetUserByIdResponse userBody,
+                                  String email) {
+        Assertions.assertThat(registerBody.getId())
+                .withFailMessage("ID in register body not equal ID user body")
+                .isEqualTo(userBody.getData().getId());
+        Assertions.assertThat(email)
+                .withFailMessage("Registration email not equal email user")
+                .isEqualTo(userBody.getData().getEmail());
+    }
+
+
 
 
 }

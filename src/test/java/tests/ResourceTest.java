@@ -9,85 +9,62 @@ import models.response.resource.ResourceResponse;
 import org.assertj.core.api.Assertions;
 import org.testng.annotations.Test;
 import retrofit2.Response;
+import tests.steps.ResourceSteps;
 import util.RandomUtil;
 
 import java.io.IOException;
 
 public class ResourceTest {
-    private static final ApiClient apiclient = new ApiClient();
-    private static final ResourceService resourceService = apiclient.getResourceService();
-    private final RandomUtil random = new RandomUtil();
-
+    private static final ResourceSteps resourceStep = new ResourceSteps();
 
     @Test
-    public void test5() throws IOException {
+    public void getResourcesTest() throws IOException {
         int page = 1;
         int perPage = 6;
         int total = 12;
-        Response<GetResourcesResponse> response = resourceService
-                .getResourceList(ApiConstants.getToken())
-                .execute();
+        Response<GetResourcesResponse> response = resourceStep.getResourceList();
+        resourceStep.checkResponseIsSuccessful(response);
 
-        Assertions.assertThat(response.isSuccessful());
+        GetResourcesResponse responseBody = resourceStep.checkResponseBodyNotNull(response);
 
-        GetResourcesResponse responseBody = response.body();
-        Assertions.assertThat(responseBody).isNotNull();
-
-        Assertions.assertThat(responseBody.getPage()).isEqualTo(page);
-        Assertions.assertThat(responseBody.getPerPage()).isEqualTo(perPage);
-        Assertions.assertThat(responseBody.getData().size()).isEqualTo(perPage);
-        Assertions.assertThat(responseBody.getTotal()).isEqualTo(total);
+        resourceStep.checkResourceList(responseBody, page, perPage, total);
     }
 
     @Test
-    public void test6() throws IOException {
+    public void getResourcesOnPageTest() throws IOException {
         int page = 2;
         int perPage = 6;
-        Response<GetResourcesResponse> response = resourceService
-                .getResourceList(ApiConstants.getToken(), page)
-                .execute();
+        int total = 12;
+        Response<GetResourcesResponse> response = resourceStep.getResourceList(page);
+        resourceStep.checkResponseIsSuccessful(response);
 
-        Assertions.assertThat(response.isSuccessful());
+        GetResourcesResponse responseBody = resourceStep.checkResponseBodyNotNull(response);
 
-        GetResourcesResponse responseBody = response.body();
-        Assertions.assertThat(responseBody).isNotNull();
-
-        Assertions.assertThat(responseBody.getPage()).isEqualTo(page);
-        Assertions.assertThat(responseBody.getPerPage()).isEqualTo(perPage);
-        Assertions.assertThat(responseBody.getData().size()).isEqualTo(perPage);
+        resourceStep.checkResourceList(responseBody, page, perPage, total);
     }
 
     @Test
-    public void test7() throws IOException {
+    public void getResourcesOnPageAndPerTest() throws IOException {
         int page = 3;
         int perPage = 4;
-        Response<GetResourcesResponse> response = resourceService
-                .getResourceList(ApiConstants.getToken(), page, perPage)
-                .execute();
+        int total = 12;
+        Response<GetResourcesResponse> response = resourceStep.getResourceList(page, perPage);
+        resourceStep.checkResponseIsSuccessful(response);
 
-        Assertions.assertThat(response.isSuccessful());
+        GetResourcesResponse responseBody = resourceStep.checkResponseBodyNotNull(response);
 
-        GetResourcesResponse responseBody = response.body();
-        Assertions.assertThat(responseBody).isNotNull();
-
-        Assertions.assertThat(responseBody.getPage()).isEqualTo(page);
-        Assertions.assertThat(responseBody.getPerPage()).isEqualTo(perPage);
-        Assertions.assertThat(responseBody.getData().size()).isEqualTo(perPage);
+        resourceStep.checkResourceList(responseBody, page, perPage, total);
     }
 
     @Test
-    public void test8() throws IOException {
-        int id = random.generateValidId();
-        Response<GetResourceByIdResponse> response = resourceService
-                .getResourceById(ApiConstants.getToken(), id)
-                .execute();
+    public void getResourceByIdTest() throws IOException {
+        int id = resourceStep.generateValidId();
+        Response<GetResourceByIdResponse> response = resourceStep.getResourceById(id);
 
-        Assertions.assertThat(response.isSuccessful());
+        resourceStep.checkResponseIsSuccessful(response);
 
-        GetResourceByIdResponse responseBody = response.body();
-        Assertions.assertThat(responseBody).isNotNull();
+        GetResourceByIdResponse responseBody = resourceStep.checkResponseBodyNotNull(response);
 
-        ResourceResponse resourceData = responseBody.getData();
-        Assertions.assertThat(resourceData.getId()).isEqualTo(id);
+        resourceStep.checkResourceById(responseBody, id);
     }
 }
