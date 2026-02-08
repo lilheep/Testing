@@ -7,9 +7,9 @@ pipeline {
     }
 
     environment {
-        TELEGRAM_CHAT_ID = '786258626'
+        TELEGRAM_CHAT_ID = 786258626
         BOT_TOKEN = "${env.BOT_TOKEN}"
-        API_KEY = "${env.apiKey}"
+        API_KEY = "${env.API_KEY}"
     }
 
     stages {
@@ -71,7 +71,7 @@ ${allureUrl}
 
                 sh """
                 curl -s -X POST \
-                https://api.telegram.org/bot${env.BOT_TOKEN}/sendMessage \
+                https://api.telegram.org/bot/${env.BOT_TOKEN}/sendMessage \
                 -d chat_id=${env.TELEGRAM_CHAT_ID} \
                 -d text="${message}" \
                 -d parse_mode="Markdown"
