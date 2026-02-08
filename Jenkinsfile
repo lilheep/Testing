@@ -23,9 +23,7 @@ pipeline {
             steps {
                 script {
                     try {
-                        withEnv(["API_KEY=${API_KEY}"]) {
-                            sh "mvn clean test -DapiKey=${API_KEY}"
-                        }
+                        sh "mvn clean test -DapiKey=${env.API_KEY}"
                     } catch (e) {
                         echo e.message
                     }

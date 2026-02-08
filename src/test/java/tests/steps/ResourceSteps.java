@@ -16,26 +16,29 @@ public class ResourceSteps {
     private static final ApiClient apiclient = new ApiClient();
     private static final ResourceService resourceService = apiclient.getResourceService();
     private final RandomUtil random = new RandomUtil();
-    private final String token = ApiConstants.getToken();
+
+    private String getToken() {
+        return ApiConstants.getToken();
+    }
 
     @Step("Getting list resources")
     public Response<GetResourcesResponse> getResourceList() throws IOException {
-        return resourceService.getResourceList(token).execute();
+        return resourceService.getResourceList(getToken()).execute();
     }
 
     @Step("Getting list resources on page")
     public Response<GetResourcesResponse> getResourceList(int page) throws IOException {
-        return resourceService.getResourceList(token, page).execute();
+        return resourceService.getResourceList(getToken(), page).execute();
     }
 
     @Step("Getting list resources on page and per page")
     public Response<GetResourcesResponse> getResourceList(int page, int perPage) throws IOException {
-        return resourceService.getResourceList(token, page, perPage).execute();
+        return resourceService.getResourceList(getToken(), page, perPage).execute();
     }
 
     @Step("Getting resource by id")
     public Response<GetResourceByIdResponse> getResourceById(int id) throws IOException {
-        return resourceService.getResourceById(token, id).execute();
+        return resourceService.getResourceById(getToken(), id).execute();
     }
 
     @Step("Generating valid user ID")
