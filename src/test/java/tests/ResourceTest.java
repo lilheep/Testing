@@ -2,6 +2,7 @@ package tests;
 
 import models.response.resource.GetResourceByIdResponse;
 import models.response.resource.GetResourcesResponse;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import retrofit2.Response;
 import tests.steps.ResourceSteps;
@@ -9,7 +10,12 @@ import tests.steps.ResourceSteps;
 import java.io.IOException;
 
 public class ResourceTest {
-    private final ResourceSteps resourceStep = new ResourceSteps();
+    private ResourceSteps resourceStep;
+
+    @BeforeClass
+    public void setUp() {
+        resourceStep = new ResourceSteps();
+    }
 
     @Test
     public void getResourcesTest() throws IOException {

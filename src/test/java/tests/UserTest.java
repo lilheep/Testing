@@ -2,6 +2,7 @@ package tests;
 
 import models.response.user.*;
 import org.assertj.core.api.Assertions;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import retrofit2.Response;
 import tests.steps.UserSteps;
@@ -9,7 +10,12 @@ import tests.steps.UserSteps;
 import java.io.IOException;
 
 public class UserTest {
-    private final UserSteps userStep = new UserSteps();
+    private UserSteps userStep;
+
+    @BeforeClass
+    public void setUp() {
+        userStep = new UserSteps();
+    }
 
     @Test
     public void getUsersTest() throws IOException {
