@@ -15,7 +15,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'master',
+                git checkout: 'master',
                     url: 'https://github.com/lilheep/Testing'
             }
         }
