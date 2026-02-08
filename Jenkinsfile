@@ -8,8 +8,8 @@ pipeline {
 
     environment {
         TELEGRAM_CHAT_ID = 786258626
-        BOT_TOKEN = credentials('TG_BOT_TOKEN')
-        API_KEY = credentials('API_KEY')
+        BOT_TOKEN = "${env.BOT_TOKEN}"
+        API_KEY = "${env.API_KEY}"
     }
 
     stages {
