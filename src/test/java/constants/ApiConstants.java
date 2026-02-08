@@ -12,7 +12,6 @@ public final class ApiConstants {
         if (token == null || token.isEmpty()) {
             throw new RuntimeException("Token is null");
         }
-
         return token;
     }
 
