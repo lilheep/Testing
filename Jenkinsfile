@@ -8,8 +8,7 @@ pipeline {
 
     environment {
         TELEGRAM_CHAT_ID = '786258626'
-        BOT_TOKEN = "${params.BOT_TOKEN}"
-        API_KEY = "${params.API_KEY}"
+        BOT_TOKEN = "${env.BOT_TOKEN}"
     }
 
     stages {
@@ -24,7 +23,8 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh "mvn clean test -DapiKey=${API_KEY}"
+                        withEnv(["API_KEY=${API_KEY}"]) {
+                            sh "mvn clean test -DapiKey=${API_KEY}"
                     } catch (e) {
                         echo e.message
                     }
