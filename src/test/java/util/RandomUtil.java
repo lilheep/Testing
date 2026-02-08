@@ -2,22 +2,25 @@ package util;
 
 import data.Names;
 import impl.NamesImpl;
-
 import java.util.List;
 import java.util.Random;
 
 public class RandomUtil {
+
     private final Random random = new Random();
     private final String allowedSymbols =
             "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$%&'*+-/=?^_`{|}~";
-    private static final NamesImpl names = new Names();
-    private static final List<String> firstNames = names.getListFirstName();
-    private static final List<String> surnames = names.getListSurname();
+
+    private final NamesImpl names = new Names();
+    private final List<String> firstNames = names.getListFirstName();
+    private final List<String> surnames = names.getListSurname();
 
     public String generateEmail(String domain) {
         StringBuilder localPart = new StringBuilder();
         for (int i = 0; i < 13; i++) {
-            localPart.append(allowedSymbols.charAt(random.nextInt(allowedSymbols.length())));
+            localPart.append(allowedSymbols.charAt(
+                    random.nextInt(allowedSymbols.length())
+            ));
         }
         return localPart + "@" + domain;
     }
@@ -33,7 +36,9 @@ public class RandomUtil {
     public String generatePassword() {
         StringBuilder password = new StringBuilder();
         for (int i = 0; i < 9; i++) {
-            password.append(allowedSymbols.charAt(random.nextInt(allowedSymbols.length())));
+            password.append(allowedSymbols.charAt(
+                    random.nextInt(allowedSymbols.length())
+            ));
         }
         return password.toString();
     }
@@ -42,5 +47,7 @@ public class RandomUtil {
         return random.nextInt(13, 1000);
     }
 
-    public int generateValidId() { return random.nextInt(1, 13); }
+    public int generateValidId() {
+        return random.nextInt(1, 13);
+    }
 }
