@@ -10,9 +10,7 @@ import models.response.user.*;
 import org.assertj.core.api.Assertions;
 import retrofit2.Response;
 import util.RandomUtil;
-
 import java.io.IOException;
-import java.util.List;
 
 public class UserSteps {
     private static final ApiClient apiclient = new ApiClient();
