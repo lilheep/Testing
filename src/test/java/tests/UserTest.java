@@ -9,7 +9,7 @@ import tests.steps.UserSteps;
 import java.io.IOException;
 
 public class UserTest {
-    private static final UserSteps userStep = new UserSteps();
+    private final UserSteps userStep = new UserSteps();
     @Test
     public void getUsersTest() throws IOException {
         int page = 1;

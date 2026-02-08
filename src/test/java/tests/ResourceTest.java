@@ -9,7 +9,7 @@ import tests.steps.ResourceSteps;
 import java.io.IOException;
 
 public class ResourceTest {
-    private static final ResourceSteps resourceStep = new ResourceSteps();
+    private final ResourceSteps resourceStep = new ResourceSteps();
 
     @Test
     public void getResourcesTest() throws IOException {
