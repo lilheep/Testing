@@ -24,7 +24,7 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh "mvn clean test -DapiKey=${apiKey}"
+                        sh "mvn clean test -DapiKey=${API_KEY}"
                     } catch (e) {
                         echo e.message
                     }
