@@ -16,38 +16,39 @@ public class UserSteps {
     private static final ApiClient apiclient = new ApiClient();
     private static final UserService userService = apiclient.getUserService();
     private final RandomUtil random = new RandomUtil();
+    private final String token = ApiConstants.getToken();
 
     @Step("Getting list users")
     public Response<GetUsersResponse> getUserList() throws IOException {
-        return userService.getUserList(ApiConstants.getToken()).execute();
+        return userService.getUserList(token).execute();
     }
 
     @Step("Getting list users on page")
     public Response<GetUsersResponse> getUserList(int page) throws  IOException {
-        return userService.getUserList(ApiConstants.getToken(), page).execute();
+        return userService.getUserList(token, page).execute();
     }
 
     @Step("Getting list users on page and per page")
     public Response<GetUsersResponse> getUserList(int page, int perPage) throws IOException {
-        return userService.getUserList(ApiConstants.getToken(), page, perPage).execute();
+        return userService.getUserList(token, page, perPage).execute();
     }
 
     @Step("Getting user by id")
     public Response<GetUserByIdResponse> getUserById(int id) throws IOException {
-        return userService.getUserById(ApiConstants.getToken(), id).execute();
+        return userService.getUserById(token, id).execute();
     }
 
     @Step("Registration user")
     public Response<RegisterUserResponse> registerUser(String email, String password) throws IOException {
         return userService
-                .registerUser(ApiConstants.getToken(), new RegisterOrLoginUserRequest(email, password))
+                .registerUser(token, new RegisterOrLoginUserRequest(email, password))
                 .execute();
     }
 
     @Step("Login user")
     public Response<LoginUserResponse> loginUser(String email, String password) throws IOException {
         return userService
-                .loginUser(ApiConstants.getToken(), new RegisterOrLoginUserRequest(email, password))
+                .loginUser(token, new RegisterOrLoginUserRequest(email, password))
                 .execute();
     }
 
@@ -55,13 +56,13 @@ public class UserSteps {
     public Response<UpdateUserResponse> updateUser (
             int id, String email, String firstName, String lastName, String avatar) throws IOException {
         return userService.updateUser(
-                ApiConstants.getToken(), id, new UpdateUserRequest(email, firstName, lastName, avatar))
+                        token, id, new UpdateUserRequest(email, firstName, lastName, avatar))
                 .execute();
     }
 
     @Step("Delete user")
     public Response<Void> deleteUser(int id) throws IOException {
-        return userService.deleteUser(ApiConstants.getToken(), id)
+        return userService.deleteUser(token, id)
                 .execute();
     }
 

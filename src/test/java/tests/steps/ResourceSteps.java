@@ -1,14 +1,11 @@
 package tests.steps;
 
 import api.ResourceService;
-import api.UserService;
 import client.ApiClient;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import constants.ApiConstants;
 import io.qameta.allure.Step;
 import models.response.resource.GetResourceByIdResponse;
 import models.response.resource.GetResourcesResponse;
-import models.response.resource.ResourceResponse;
 import org.assertj.core.api.Assertions;
 import retrofit2.Response;
 import util.RandomUtil;
@@ -19,25 +16,26 @@ public class ResourceSteps {
     private static final ApiClient apiclient = new ApiClient();
     private static final ResourceService resourceService = apiclient.getResourceService();
     private final RandomUtil random = new RandomUtil();
+    private final String token = ApiConstants.getToken();
 
     @Step("Getting list resources")
     public Response<GetResourcesResponse> getResourceList() throws IOException {
-        return resourceService.getResourceList(ApiConstants.getToken()).execute();
+        return resourceService.getResourceList(token).execute();
     }
 
     @Step("Getting list resources on page")
     public Response<GetResourcesResponse> getResourceList(int page) throws IOException {
-        return resourceService.getResourceList(ApiConstants.getToken(), page).execute();
+        return resourceService.getResourceList(token, page).execute();
     }
 
     @Step("Getting list resources on page and per page")
     public Response<GetResourcesResponse> getResourceList(int page, int perPage) throws IOException {
-        return resourceService.getResourceList(ApiConstants.getToken(), page, perPage).execute();
+        return resourceService.getResourceList(token, page, perPage).execute();
     }
 
     @Step("Getting resource by id")
     public Response<GetResourceByIdResponse> getResourceById(int id) throws IOException {
-        return resourceService.getResourceById(ApiConstants.getToken(), id).execute();
+        return resourceService.getResourceById(token, id).execute();
     }
 
     @Step("Generating valid user ID")

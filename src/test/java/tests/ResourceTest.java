@@ -1,16 +1,10 @@
 package tests;
 
-import api.ResourceService;
-import client.ApiClient;
-import constants.ApiConstants;
 import models.response.resource.GetResourceByIdResponse;
 import models.response.resource.GetResourcesResponse;
-import models.response.resource.ResourceResponse;
-import org.assertj.core.api.Assertions;
 import org.testng.annotations.Test;
 import retrofit2.Response;
 import tests.steps.ResourceSteps;
-import util.RandomUtil;
 
 import java.io.IOException;
 
