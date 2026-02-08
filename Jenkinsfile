@@ -7,16 +7,21 @@ pipeline {
     }
 
     environment {
-        TELEGRAM_CHAT_ID = 786258626
-        BOT_TOKEN = "${env.BOT_TOKEN}"
-        API_KEY = "${env.API_KEY}"
+        TELEGRAM_CHAT_ID = '786258626'
+        BOT_TOKEN = "${env.BOT_TOKEN}" // Use Jenkins credentials
+        API_KEY = "${env.API_KEY}" // Use Jenkins credentials
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'master',
-                    url: 'https://github.com/lilheep/Testing'
+                checkout scm
+            }
+        }
+
+        stage('Clean and Compile') {
+            steps {
+                sh 'mvn clean compile -DapiKey=${API_KEY}'
             }
         }
 
@@ -24,9 +29,11 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh "mvn clean test -DapiKey=${API_KEY}"
+                        sh "mvn test -DapiKey=${API_KEY}"
                     } catch (e) {
-                        echo e.message
+                        echo "Tests failed: ${e.message}"
+                        // Continue pipeline even if tests fail
+                        currentBuild.result = 'UNSTABLE'
                     }
                 }
             }
@@ -43,39 +50,60 @@ pipeline {
             ])
 
             script {
-                def allureUrl = "${env.JENKINS_URL}job/${env.JOB_NAME}/${env.BUILD_NUMBER}/allure"
+                def jenkinsUrl = env.JENKINS_URL ?: "http://your-jenkins-server:8080/"
+                def allureUrl = "${jenkinsUrl}job/${env.JOB_NAME}/${env.BUILD_NUMBER}/allure"
 
                 def testngFile = 'target/surefire-reports/testng-results.xml'
                 def passed = 0, failed = 0, skipped = 0, total = 0
 
                 if (fileExists(testngFile)) {
                     def xml = readFile(testngFile)
-                    passed = (xml =~ /passed="(\d+)"/)[0][1] as Integer
-                    failed = (xml =~ /failed="(\d+)"/)[0][1] as Integer
-                    skipped = (xml =~ /skipped="(\d+)"/)[0][1] as Integer
-                    total = (xml =~ /total="(\d+)"/)[0][1] as Integer
+                    def matcher = xml =~ /passed="(\d+)"/
+                    if (matcher) passed = matcher[0][1] as Integer
+
+                    matcher = xml =~ /failed="(\d+)"/
+                    if (matcher) failed = matcher[0][1] as Integer
+
+                    matcher = xml =~ /skipped="(\d+)"/
+                    if (matcher) skipped = matcher[0][1] as Integer
+
+                    matcher = xml =~ /total="(\d+)"/
+                    if (matcher) total = matcher[0][1] as Integer
+                } else {
+                    echo "testng-results.xml not found!"
                 }
 
                 def message = """
                 🚀 *Test Execution Report*
 
-📊 *Results:*
-✅ Passed: ${passed}
-❌ Failed: ${failed}
-⏭ Skipped: ${skipped}
-📈 Total: ${total}
+                📊 *Results:*
+                ✅ Passed: ${passed}
+                ❌ Failed: ${failed}
+                ⏭ Skipped: ${skipped}
+                📈 Total: ${total}
 
-📋 *Allure Report:*
-${allureUrl}
+                📋 *Allure Report:*
+                ${allureUrl}
+
+                🔗 *Build URL:* ${env.BUILD_URL}
                 """
 
-                sh """
-                curl -s -X POST \
-                https://api.telegram.org/bot/${env.BOT_TOKEN}/sendMessage \
-                -d chat_id=${env.TELEGRAM_CHAT_ID} \
-                -d text="${message}" \
-                -d parse_mode="Markdown"
-                """
+                // Send Telegram notification (with error handling)
+                try {
+                    sh """
+                    curl -s -X POST \
+                    https://api.telegram.org/bot${BOT_TOKEN}/sendMessage \
+                    -H "Content-Type: application/json" \
+                    -d '{
+                        "chat_id": "${TELEGRAM_CHAT_ID}",
+                        "text": ${groovy.json.JsonOutput.toJson(message)},
+                        "parse_mode": "Markdown",
+                        "disable_web_page_preview": false
+                    }'
+                    """
+                } catch (e) {
+                    echo "Failed to send Telegram notification: ${e.message}"
+                }
             }
         }
     }
