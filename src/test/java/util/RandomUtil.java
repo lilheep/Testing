@@ -2,7 +2,6 @@ package util;
 
 import data.Names;
 import impl.NamesImpl;
-
 import java.util.List;
 import java.util.Random;
 

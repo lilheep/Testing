@@ -10,8 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Names implements NamesImpl {
-    private final String pathFileFirstName = "src\\main\\resources\\firstName.txt";
-    private final String pathFileSurname = "src\\main\\resources\\firstName.txt";
     private BufferedReader bufferedReader;
     private List<String> listNames = new ArrayList<>();
     private List<String> listSurnames = new ArrayList<>();
@@ -19,7 +17,7 @@ public class Names implements NamesImpl {
     @Override
     public List<String> getListFirstName() {
         try {
-            bufferedReader = new BufferedReader(new FileReader(pathFileFirstName));
+            bufferedReader = new BufferedReader(new FileReader("firstName.txt"));
             String line = bufferedReader.readLine();
 
             while (line != null) {
@@ -36,7 +34,7 @@ public class Names implements NamesImpl {
     @Override
     public List<String> getListSurname() {
         try {
-            bufferedReader = new BufferedReader(new FileReader(pathFileSurname));
+            bufferedReader = new BufferedReader(new FileReader("surname.txt"));
             String line = bufferedReader.readLine();
 
             while (line != null) {
