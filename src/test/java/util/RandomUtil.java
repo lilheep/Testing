@@ -9,9 +9,9 @@ public class RandomUtil {
     private final Random random = new Random();
     private final String allowedSymbols =
             "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$%&'*+-/=?^_`{|}~";
-    private static final NamesImpl names = new Names();
-    private static final List<String> firstNames = names.getListFirstName();
-    private static final List<String> surnames = names.getListSurname();
+    private final NamesImpl names = new Names();
+    private final List<String> firstNames = names.getListFirstName();
+    private final List<String> surnames = names.getListSurname();
 
     public String generateEmail(String domain) {
         StringBuilder localPart = new StringBuilder();
@@ -37,7 +37,7 @@ public class RandomUtil {
         return password.toString();
     }
 
-    public int generateId() {
+    public int generateInvalidId() {
         return random.nextInt(13, 1000);
     }
 
