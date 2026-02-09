@@ -18,9 +18,4 @@ public class ApiClient {
 
     @Getter
     private final ResourceService resourceService = retrofit.create(ResourceService.class);
-
-    /*
-    1. мб сделать интерфейс для реализации сервисов
-    2. ? изменить структуру для возврата service
-     */
 }
