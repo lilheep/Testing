@@ -29,7 +29,17 @@ pipeline {
                     }
                 }
             }
-        stage('Send message TG')
+        }
+
+        stage('Get Allure') {
+        steps {
+            allure([
+                includePropetries: false,
+                jdk: '',
+                results [[path: 'target/allure-results']],
+                reportBuildPolicy: 'ALWAYS'
+            ])
+            }
         }
     }
 }
