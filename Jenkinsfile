@@ -8,7 +8,8 @@ pipeline {
 
     environment {
         TELEGRAM_CHAT_ID = '786258626'
-        BOT_TOKEN = "${env.BOT_TOKEN}"
+        BOT_TOKEN = credentials('BOT_TOKEN')
+        API_KEY = credentials('API_KEY')
     }
 
     stages {
@@ -23,7 +24,7 @@ pipeline {
             steps {
                 script {
                     try {
-                        sh "mvn clean test -DapiKey=${env.API_KEY}"
+                        sh "mvn clean test -DapiKey=${API_KEY}"
                     } catch (e) {
                         echo e.message
                     }
@@ -88,7 +89,7 @@ pipeline {
 
     post {
         always {
-            echo 'end'
+            echo 'Succefuly send allure-report'
         }
         failure {
             script {
