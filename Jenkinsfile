@@ -42,10 +42,37 @@ pipeline {
             }
         }
 
+        stage('Parsing allure') {
+            steps {
+                script {
+                    def result = readJSON file: 'allure-report/widgets/summary.json'
+                    def stats = result.statistic
+
+                    env.PASSED = stats.passed.toString()
+                    env.FAILED = stats.failed.toString()
+                    env.SKIPPED = stats.skipped.toString()
+                    env.BROKEN = stats.broken.toString()
+                    env.UNKNOWN = stats.unknown.toString()
+                    env.TOTAL = stats.total.toString()
+                }
+            }
+        }
+
         stage('Send message TG') {
             steps {
                 script {
-                    def message = 'Тесты успешно прошли'
+                    def allureUrl = "${env.BUILD_URL}allure/"
+                    def message = """
+                    Results tests:
+                    PASSED: ${env.PASSED}
+                    FAILED: ${env.FAILED}
+                    SKIPPED: ${env.SKIPPED}
+                    BROKEN: ${env.BROKEN}
+                    UNKNOWN: ${env.UNKNOWN}
+                    **TOTAL**: ${env.TOTAL}
+
+                    ALLURE: ${allureUrl}
+                    """
                     try {
                         sh """curl -s -X POST "https://api.telegram.org/bot${env.BOT_TOKEN}/sendMessage" \
                         -d chat_id='${env.TELEGRAM_CHAT_ID}' \
