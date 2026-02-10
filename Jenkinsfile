@@ -65,15 +65,14 @@ pipeline {
                 script {
                     def allureUrl = "${env.BUILD_URL}allure/"
                     def message = """
-                    Results tests:
-                    PASSED: ${env.PASSED}
-                    FAILED: ${env.FAILED}
-                    SKIPPED: ${env.SKIPPED}
-                    BROKEN: ${env.BROKEN}
-                    UNKNOWN: ${env.UNKNOWN}
-                    **TOTAL**: ${env.TOTAL}
-
-                    ALLURE: ${allureUrl}
+Results tests:
+PASSED: ${env.PASSED}
+FAILED: ${env.FAILED}
+SKIPPED: ${env.SKIPPED}
+BROKEN: ${env.BROKEN}
+UNKNOWN: ${env.UNKNOWN}
+**TOTAL**: ${env.TOTAL}
+ALLURE: ${allureUrl}
                     """
                     try {
                         sh """curl -s -X POST "https://api.telegram.org/bot${env.BOT_TOKEN}/sendMessage" \
