@@ -45,7 +45,8 @@ pipeline {
         stage('Parsing allure') {
             steps {
                 script {
-                    def result = readJSON file: 'allure-report/widgets/summary.json'
+                    def json = readFile 'allure-report/widgets/summary.json'
+                    def result = new groovy.json.JsonSlurper().parseText(json)
                     def stats = result.statistic
 
                     env.PASSED = stats.passed.toString()
