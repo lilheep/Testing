@@ -4,8 +4,8 @@ import api.UserService;
 import client.ApiClient;
 import constants.ApiConstants;
 import io.qameta.allure.Step;
-import models.request.RegisterOrLoginUserRequest;
-import models.request.UpdateUserRequest;
+import models.request.user.RegisterOrLoginUserRequest;
+import models.request.user.UpdateUserRequest;
 import models.response.user.*;
 import org.assertj.core.api.Assertions;
 import retrofit2.Response;
@@ -46,6 +46,11 @@ public class UserSteps {
         return userService
                 .registerUser(getToken(), new RegisterOrLoginUserRequest(email, password))
                 .execute();
+    }
+
+    @Step("Logout user")
+    public Response<Void> logoutUser() throws IOException {
+        return userService.logoutUser(getToken()).execute();
     }
 
     @Step("Login user")

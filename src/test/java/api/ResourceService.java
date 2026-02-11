@@ -2,7 +2,6 @@ package api;
 
 import models.response.resource.GetResourceByIdResponse;
 import models.response.resource.GetResourcesResponse;
-import models.response.resource.ResourceResponse;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Header;

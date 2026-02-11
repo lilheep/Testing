@@ -1,11 +1,9 @@
-package models.request;
+package models.request.user;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class RegisterOrLoginUserRequest {
     @JsonProperty("email")
     private String email;

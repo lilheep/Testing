@@ -1,5 +1,6 @@
 package client;
 
+import api.AppUserService;
 import api.ResourceService;
 import api.UserService;
 import constants.ApiConstants;
@@ -18,4 +19,7 @@ public class ApiClient {
 
     @Getter
     private final ResourceService resourceService = retrofit.create(ResourceService.class);
+
+    @Getter
+    private final AppUserService appUserService = retrofit.create(AppUserService.class);
 }

@@ -1,7 +1,7 @@
 package api;
 
-import models.request.RegisterOrLoginUserRequest;
-import models.request.UpdateUserRequest;
+import models.request.user.RegisterOrLoginUserRequest;
+import models.request.user.UpdateUserRequest;
 import models.response.user.*;
 import retrofit2.Call;
 import retrofit2.http.*;
@@ -32,4 +32,7 @@ public interface UserService {
     @DELETE("/api/users/{id}")
     Call<Void> deleteUser(@Header("x-api-key") String token,
                     @Path("id") int id);
+
+    @POST("/api/logout")
+    Call<Void> logoutUser(@Header("x-api-key") String token);
 }

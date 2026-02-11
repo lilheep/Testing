@@ -5,6 +5,7 @@
         <classes>
             <class name="tests.UserTest"/>
             <class name="tests.ResourceTest"/>
+            <class name="tests.AppUserTest"/>
         </classes>
     </test>
 </suite>

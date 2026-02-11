@@ -99,7 +99,7 @@ public class UserTest {
         Response<LoginUserResponse> responseLogin = userStep.loginUser(email, password);
         userStep.checkResponseIsSuccessful(responseLogin);
 
-        LoginUserResponse responseLoginBody = userStep.checkResponseBodyNotNull(responseLogin);
+        userStep.checkResponseBodyNotNull(responseLogin);
     }
 
     @Test
@@ -122,6 +122,26 @@ public class UserTest {
         Response<Void> response = userStep.deleteUser(id);
 
         userStep.checkResponseIsSuccessful(response);
+    }
 
+    @Test
+    public void logoutUserTest() throws IOException {
+        int id = userStep.generateValidId();
+        String email;
+        String password = userStep.generatePassword();
+
+        Response<GetUserByIdResponse> responseLoginUser = userStep.getUserById(id);
+        userStep.checkResponseIsSuccessful(responseLoginUser);
+
+        GetUserByIdResponse responseUserBody = userStep.checkResponseBodyNotNull(responseLoginUser);
+        email = responseUserBody.getData().getEmail();
+
+        Response<LoginUserResponse> responseLogin = userStep.loginUser(email, password);
+        userStep.checkResponseIsSuccessful(responseLogin);
+
+        userStep.checkResponseBodyNotNull(responseLogin);
+
+        Response<Void> responseLogout = userStep.logoutUser();
+        userStep.checkResponseIsSuccessful(responseLogout);
     }
 }
