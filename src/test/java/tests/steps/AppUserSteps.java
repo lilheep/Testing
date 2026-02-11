@@ -6,33 +6,36 @@ import constants.ApiConstants;
 import io.qameta.allure.Step;
 import models.request.appuser.LoginUserRequest;
 import models.request.appuser.VerifyTokenRequest;
-import models.response.appuser.LoginUserResponse;
-import models.response.appuser.RootLoginUserResponse;
-import models.response.appuser.RootVerifyTokenResponse;
-import models.response.appuser.VerifyTokenResponse;
+import models.response.appuser.*;
 import org.assertj.core.api.Assertions;
 import retrofit2.Response;
 
 import java.io.IOException;
 
 public class AppUserSteps {
-    private static final ApiClient apiclient = new ApiClient();
-    private static final AppUserService appUserService = apiclient.getAppUserService();
+    private final ApiClient apiclient = new ApiClient(getToken());
+    private final AppUserService appUserService = apiclient.getAppUserService();
 
     private String getToken() { return ApiConstants.getToken(); }
 
+    public ApiClient getApiClient() { return apiclient; }
+
     @Step("Login user")
     public Response<RootLoginUserResponse> loginUser() throws IOException {
-        String token = getToken();
         return appUserService
-                .loginUser(getToken(), new LoginUserRequest(
+                .loginUser(new LoginUserRequest(
                         getUserEmail(), getProjectId())).execute();
     }
 
     @Step("Verify token")
     public Response<RootVerifyTokenResponse> verifyToken() throws IOException {
-        return appUserService.verifyToken(getToken(), new VerifyTokenRequest(ApiConstants.getTokenApp()))
+        return appUserService.verifyToken(new VerifyTokenRequest(ApiConstants.getTokenApp()))
                 .execute();
+    }
+
+    @Step("Get current user info")
+    public Response<RootUserMeResponse> getMeUser() throws IOException {
+        return appUserService.getMeUser().execute();
     }
 
     @Step("Get user email")

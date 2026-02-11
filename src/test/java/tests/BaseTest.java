@@ -27,5 +27,7 @@ public class BaseTest {
         RootVerifyTokenResponse responseVerifyBody = appUserStep.checkResponseBodyNotNull(responseVerify);
         appUserStep.checkVerifyToken(responseVerifyBody);
         appUserStep.setValueSessionToken(responseVerifyBody.getData());
+
+        appUserStep.getApiClient().setBearerToken(appUserStep.getValueSessionToken());
     }
 }

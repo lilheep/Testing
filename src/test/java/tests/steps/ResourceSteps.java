@@ -13,8 +13,8 @@ import util.RandomUtil;
 import java.io.IOException;
 
 public class ResourceSteps {
-    private static final ApiClient apiclient = new ApiClient();
-    private static final ResourceService resourceService = apiclient.getResourceService();
+    private final ApiClient apiclient = new ApiClient(getToken());
+    private final ResourceService resourceService = apiclient.getResourceService();
     private final RandomUtil random = new RandomUtil();
 
     private String getToken() {
@@ -23,22 +23,22 @@ public class ResourceSteps {
 
     @Step("Getting list resources")
     public Response<GetResourcesResponse> getResourceList() throws IOException {
-        return resourceService.getResourceList(getToken()).execute();
+        return resourceService.getResourceList().execute();
     }
 
     @Step("Getting list resources on page")
     public Response<GetResourcesResponse> getResourceList(int page) throws IOException {
-        return resourceService.getResourceList(getToken(), page).execute();
+        return resourceService.getResourceList(page).execute();
     }
 
     @Step("Getting list resources on page and per page")
     public Response<GetResourcesResponse> getResourceList(int page, int perPage) throws IOException {
-        return resourceService.getResourceList(getToken(), page, perPage).execute();
+        return resourceService.getResourceList(page, perPage).execute();
     }
 
     @Step("Getting resource by id")
     public Response<GetResourceByIdResponse> getResourceById(int id) throws IOException {
-        return resourceService.getResourceById(getToken(), id).execute();
+        return resourceService.getResourceById(id).execute();
     }
 
     @Step("Generating valid user ID")
