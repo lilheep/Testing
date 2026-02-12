@@ -11,6 +11,9 @@ public final class ApiConstants {
     private static final String email = "andrey.arkhipov.2006@mail.ru";
 
     @Getter
+    private static final String myId = "54e08546-93b4-4ec2-b3fd-95c01b286458";
+
+    @Getter
     @Setter
     private static String tokenApp;
 

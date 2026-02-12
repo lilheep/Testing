@@ -13,7 +13,6 @@ import models.response.appuser.*;
 import org.assertj.core.api.Assertions;
 import retrofit2.Response;
 import util.RandomUtil;
-
 import java.io.IOException;
 
 public class AppUserSteps {
@@ -56,8 +55,13 @@ public class AppUserSteps {
     }
 
     @Step("Add user to project")
-    public Response<AddUserProjectResponse> addUserToProject(String email) throws IOException {
+    public Response<RootAddUserProjectResponse> addUserToProject(String email) throws IOException {
         return appUserServiceForApiKey.addUserToProject(new AddUserProjectRequest(email)).execute();
+    }
+
+    @Step("Get user by ID")
+    public Response<RootGetUserByIdResponse> getUserById(String id) throws IOException {
+        return appUserServiceForApiKey.getUserById(id).execute();
     }
 
     @Step("Generating email")
@@ -72,6 +76,9 @@ public class AppUserSteps {
     public String getProjectId() {
         return ApiConstants.getProjectId();
     }
+
+    @Step("Get my user id")
+    public String getMyUserId() { return ApiConstants.getMyId(); }
 
     @Step("Get value token app")
     public String getValueTokenApp() {
@@ -138,9 +145,32 @@ public class AppUserSteps {
     }
 
     @Step("Check add user to project")
-    public void checkAddUserProject(AddUserProjectResponse response, String email) {
-        Assertions.assertThat(response.getEmail())
+    public void checkAddUserProject(RootAddUserProjectResponse response, String email) {
+        Assertions.assertThat(response.getData().getEmail().toLowerCase())
                 .withFailMessage("Email in request not equal email in response")
-                .isEqualTo(email);
+                .isEqualTo(email.toLowerCase());
+    }
+
+    @Step("Check user exists on list users")
+    public void checkUserExistsInList(RootGetListUsersResponse response, String email) {
+        boolean existsUser = false;
+        for (var user : response.getData()) {
+            if (user.getEmail().equalsIgnoreCase(email)) {
+                existsUser = true;
+                break;
+            }
+        }
+
+        Assertions.assertThat(existsUser)
+                .withFailMessage("User not found in list users")
+                .isTrue();
+
+    }
+
+    @Step("Check get user by ID")
+    public void checkGetUserById(RootGetUserByIdResponse response, String id) {
+        Assertions.assertThat(response.getData().getId())
+                .withFailMessage("User id not equal path id")
+                .isEqualTo(id);
     }
 }

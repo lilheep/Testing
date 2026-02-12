@@ -5,10 +5,7 @@ import models.request.appuser.LoginUserRequest;
 import models.request.appuser.VerifyTokenRequest;
 import models.response.appuser.*;
 import retrofit2.Call;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.POST;
-import retrofit2.http.Query;
+import retrofit2.http.*;
 
 public interface AppUserService {
     @POST("/api/app-users/login")
@@ -22,5 +19,7 @@ public interface AppUserService {
     @GET("api/app-users")
     Call<RootGetListUsersResponse> getListUsers(@Query("limit") int limit);
     @POST("api/app-users")
-    Call<AddUserProjectResponse> addUserToProject(@Body AddUserProjectRequest data);
+    Call<RootAddUserProjectResponse> addUserToProject(@Body AddUserProjectRequest data);
+    @GET("api/app-users/{id}")
+    Call<RootGetUserByIdResponse> getUserById(@Path("id") String id);
 }
