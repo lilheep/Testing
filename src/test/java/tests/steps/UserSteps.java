@@ -1,7 +1,7 @@
 package tests.steps;
 
 import api.UserService;
-import client.ApiClient;
+import client.ApiKeyClient;
 import constants.ApiConstants;
 import io.qameta.allure.Step;
 import models.request.user.RegisterOrLoginUserRequest;
@@ -13,8 +13,8 @@ import util.RandomUtil;
 import java.io.IOException;
 
 public class UserSteps {
-    private final ApiClient apiclient = new ApiClient(getToken());
-    private final UserService userService = apiclient.getUserService();
+    private final ApiKeyClient apiKeyClient = new ApiKeyClient(getToken());
+    private final UserService userService = apiKeyClient.getUserService();
     private final RandomUtil random = new RandomUtil();
 
     private String getToken() {

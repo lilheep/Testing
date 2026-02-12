@@ -1,7 +1,7 @@
 package tests.steps;
 
 import api.ResourceService;
-import client.ApiClient;
+import client.ApiKeyClient;
 import constants.ApiConstants;
 import io.qameta.allure.Step;
 import models.response.resource.GetResourceByIdResponse;
@@ -13,8 +13,8 @@ import util.RandomUtil;
 import java.io.IOException;
 
 public class ResourceSteps {
-    private final ApiClient apiclient = new ApiClient(getToken());
-    private final ResourceService resourceService = apiclient.getResourceService();
+    private final ApiKeyClient apiKeyClient = new ApiKeyClient(getToken());
+    private final ResourceService resourceService = apiKeyClient.getResourceService();
     private final RandomUtil random = new RandomUtil();
 
     private String getToken() {

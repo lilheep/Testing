@@ -11,7 +11,7 @@ import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
-public class ApiClient {
+public class ApiKeyClient {
     private final Retrofit retrofit;
     private final BearerInterceptor bearerInterceptor;
     @Getter
@@ -21,16 +21,17 @@ public class ApiClient {
     @Getter
     private final AppUserService appUserService;
 
-    public ApiClient(String apiKey) {
+    public ApiKeyClient(String apiKey) {
         bearerInterceptor = new BearerInterceptor();
-        OkHttpClient okHttpClient = new OkHttpClient().newBuilder()
+
+        OkHttpClient clientForApiKey = new OkHttpClient().newBuilder()
                 .addInterceptor(new ApiKeyInterceptor(apiKey))
                 .addInterceptor(bearerInterceptor)
                 .build();
 
         retrofit = new Retrofit.Builder()
                 .baseUrl(ApiConstants.getBaseUrl())
-                .client(okHttpClient)
+                .client(clientForApiKey)
                 .addConverterFactory(JacksonConverterFactory.create())
                 .build();
 

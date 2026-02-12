@@ -1,5 +1,7 @@
 package tests;
 
+import models.response.appuser.AddUserProjectResponse;
+import models.response.appuser.RootGetListUsersResponse;
 import org.testng.annotations.Test;
 import retrofit2.Response;
 import models.response.appuser.RootUserMeResponse;
@@ -22,4 +24,21 @@ public class AppUserTest extends BaseTest {
         appUserStep.checkResponseIsSuccessful(response);
     }
 
+    @Test
+    public void getListUsersTest() throws IOException {
+        int limit = 1;
+        Response<RootGetListUsersResponse> response = appUserStep.getListUsers(limit);
+        appUserStep.checkResponseIsSuccessful(response);
+        RootGetListUsersResponse responseBody = appUserStep.checkResponseBodyNotNull(response);
+        appUserStep.checkListUsers(responseBody, limit);
+    }
+
+    @Test
+    public void addUserToProjectTest() throws IOException {
+        String email = appUserStep.generateEmail("gmail.com");
+        Response<AddUserProjectResponse> response = appUserStep.addUserToProject(email);
+        appUserStep.checkResponseIsSuccessful(response);
+        AddUserProjectResponse responseBody = appUserStep.checkResponseBodyNotNull(response);
+        appUserStep.checkAddUserProject(responseBody, email);
+    }
 }
