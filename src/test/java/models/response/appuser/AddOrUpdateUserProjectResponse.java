@@ -8,7 +8,7 @@ import java.util.Date;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class AddUserProjectResponse {
+public class AddOrUpdateUserProjectResponse {
     @JsonProperty("id")
     private String id;
     @JsonProperty("email")

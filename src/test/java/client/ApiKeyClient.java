@@ -1,6 +1,7 @@
 package client;
 
 import api.AppUserService;
+import api.CollectionService;
 import api.ResourceService;
 import api.UserService;
 import client.interceptor.ApiKeyInterceptor;
@@ -20,6 +21,8 @@ public class ApiKeyClient {
     private final ResourceService resourceService;
     @Getter
     private final AppUserService appUserService;
+    @Getter
+    private final CollectionService collectionService;
 
     public ApiKeyClient(String apiKey) {
         bearerInterceptor = new BearerInterceptor();
@@ -38,6 +41,7 @@ public class ApiKeyClient {
         userService = retrofit.create(UserService.class);
         resourceService = retrofit.create(ResourceService.class);
         appUserService = retrofit.create(AppUserService.class);
+        collectionService = retrofit.create(CollectionService.class);
     }
 
     public void setBearerToken(String bearerToken) {

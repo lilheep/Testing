@@ -8,6 +8,7 @@ import io.qameta.allure.Step;
 import lombok.Getter;
 import models.request.appuser.AddUserProjectRequest;
 import models.request.appuser.LoginUserRequest;
+import models.request.appuser.UpdateUserRequest;
 import models.request.appuser.VerifyTokenRequest;
 import models.response.appuser.*;
 import org.assertj.core.api.Assertions;
@@ -55,7 +56,7 @@ public class AppUserSteps {
     }
 
     @Step("Add user to project")
-    public Response<RootAddUserProjectResponse> addUserToProject(String email) throws IOException {
+    public Response<RootAddOrUpdateUserProjectResponse> addUserToProject(String email) throws IOException {
         return appUserServiceForApiKey.addUserToProject(new AddUserProjectRequest(email)).execute();
     }
 
@@ -64,6 +65,30 @@ public class AppUserSteps {
         return appUserServiceForApiKey.getUserById(id).execute();
     }
 
+    @Step("Update user by ID")
+    public Response<RootAddOrUpdateUserProjectResponse> updateUser(String id, String email, String status) throws IOException {
+        return appUserServiceForApiKey.updateUser(id, new UpdateUserRequest(email, status)).execute();
+    }
+
+    @Step("Delete user by ID")
+    public Response<Void> deleteUser(String id) throws IOException {
+        return appUserServiceForApiKey.deleteUser(id).execute();
+    }
+
+    @Step("Get list users on project")
+    public Response<RootGetListUsersOnProjectResponse> getListUsersOnProject(String projectId) throws IOException {
+        return appUserServiceForApiKey.getListUsersOnProject(projectId).execute();
+    }
+
+    @Step("Get list users on project with filtration by status")
+    public Response<RootGetListUsersOnProjectResponse> getListUsersOnProject(String projectId, String status) throws IOException {
+        return appUserServiceForApiKey.getListUsersOnProject(projectId, status).execute();
+    }
+
+    @Step("Get count user on project")
+    public Response<GetTotalUsersOnProjectResponse> getTotalUsersOnProjectResponse(String projectId) throws IOException {
+        return appUserServiceForApiKey.getTotalUsersOnProject(projectId).execute();
+    }
     @Step("Generating email")
     public String generateEmail(String domain) { return random.generateEmail(domain); }
 
@@ -80,31 +105,14 @@ public class AppUserSteps {
     @Step("Get my user id")
     public String getMyUserId() { return ApiConstants.getMyId(); }
 
-    @Step("Get value token app")
-    public String getValueTokenApp() {
-        Assertions.assertThat(ApiConstants.getTokenApp())
-                .withFailMessage("Token app is null")
-                .isNotNull();
-        return ApiConstants.getTokenApp();
-    }
-
     @Step("Set value token app")
     public void setValueTokenApp(LoginUserResponse loginUserResponse) {
         ApiConstants.setTokenApp(loginUserResponse.getToken());
     }
 
-    @Step("Set session token")
-    public void setValueSessionToken(VerifyTokenResponse verifyTokenResponse) {
-        ApiConstants.setSessionToken(verifyTokenResponse.getSessionToken());
-    }
-
-    @Step("Get session token")
-    public String getValueSessionToken() {
-        Assertions.assertThat(ApiConstants.getSessionToken())
-                .withFailMessage("Session token is null")
-                .isNotNull();
-
-        return ApiConstants.getSessionToken();
+    @Step("Generate valid user ID")
+    public String generateValidUserId(RootGetListUsersResponse responseBody) {
+        return random.generateUserIdOnProject(responseBody);
     }
 
     @Step("Checking success response")
@@ -145,7 +153,7 @@ public class AppUserSteps {
     }
 
     @Step("Check add user to project")
-    public void checkAddUserProject(RootAddUserProjectResponse response, String email) {
+    public void checkAddUserProject(RootAddOrUpdateUserProjectResponse response, String email) {
         Assertions.assertThat(response.getData().getEmail().toLowerCase())
                 .withFailMessage("Email in request not equal email in response")
                 .isEqualTo(email.toLowerCase());
@@ -164,7 +172,6 @@ public class AppUserSteps {
         Assertions.assertThat(existsUser)
                 .withFailMessage("User not found in list users")
                 .isTrue();
-
     }
 
     @Step("Check get user by ID")
@@ -172,5 +179,48 @@ public class AppUserSteps {
         Assertions.assertThat(response.getData().getId())
                 .withFailMessage("User id not equal path id")
                 .isEqualTo(id);
+    }
+
+    @Step("Check update user")
+    public void checkUpdateUser(RootAddOrUpdateUserProjectResponse response, String id,
+                                String email, String status) {
+        Assertions.assertThat(response.getData().getId())
+                .withFailMessage("User id not equal request id")
+                .isEqualTo(id);
+        Assertions.assertThat(response.getData().getEmail().toLowerCase())
+                .withFailMessage("New email not equals request email")
+                .isEqualTo(email.toLowerCase());
+        Assertions.assertThat(response.getData().getStatus())
+                .withFailMessage("New status not equals request status")
+                .isEqualTo(status);
+    }
+
+    @Step("Checking status in filtration by status list users on project")
+    public void checkListUsersOnProject(RootGetListUsersOnProjectResponse responseBody, String status) {
+        boolean filterUser = true;
+        for (var user : responseBody.getData()) {
+            if (!user.getStatus().equals(status)) {
+                filterUser = false;
+                break;
+            }
+        }
+
+        Assertions.assertThat(filterUser)
+                .withFailMessage("Status not equal status in filter")
+                .isTrue();
+    }
+
+    @Step("Generate random status user on project")
+    public String generateStatusUser() {
+        return random.generateStatusUserOnProject();
+    }
+
+    @Step("Check total users on project")
+    public void checkTotalUserOnProject(GetTotalUsersOnProjectResponse responseTotal,
+                                        RootGetListUsersOnProjectResponse responseUsers) {
+        Assertions.assertThat(responseTotal.getTotal())
+                .withFailMessage("Total not equal count users in list")
+                .isEqualTo(responseUsers.getData().size());
+
     }
 }

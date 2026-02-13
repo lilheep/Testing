@@ -2,6 +2,7 @@ package api;
 
 import models.request.appuser.AddUserProjectRequest;
 import models.request.appuser.LoginUserRequest;
+import models.request.appuser.UpdateUserRequest;
 import models.request.appuser.VerifyTokenRequest;
 import models.response.appuser.*;
 import retrofit2.Call;
@@ -19,7 +20,19 @@ public interface AppUserService {
     @GET("api/app-users")
     Call<RootGetListUsersResponse> getListUsers(@Query("limit") int limit);
     @POST("api/app-users")
-    Call<RootAddUserProjectResponse> addUserToProject(@Body AddUserProjectRequest data);
+    Call<RootAddOrUpdateUserProjectResponse> addUserToProject(@Body AddUserProjectRequest data);
     @GET("api/app-users/{id}")
     Call<RootGetUserByIdResponse> getUserById(@Path("id") String id);
+    @PUT("api/app-users/{id}")
+    Call<RootAddOrUpdateUserProjectResponse> updateUser(@Path("id") String id,
+                                                        @Body UpdateUserRequest data);
+    @DELETE("api/app-users/{id}")
+    Call<Void> deleteUser(@Path("id") String id);
+    @GET("api/projects/{projectId}/app-users")
+    Call<RootGetListUsersOnProjectResponse> getListUsersOnProject(@Path("projectId") String projectId);
+    @GET("api/projects/{projectId}/app-users")
+    Call<RootGetListUsersOnProjectResponse> getListUsersOnProject(@Path("projectId") String projectId,
+                                                                  @Query("statuses") String statuses);
+    @GET("api/projects/{projectId}/app-users/total")
+    Call<GetTotalUsersOnProjectResponse> getTotalUsersOnProject(@Path("projectId") String projectId);
 }

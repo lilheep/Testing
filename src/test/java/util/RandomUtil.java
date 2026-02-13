@@ -1,7 +1,10 @@
 package util;
 
+import constants.ApiConstants;
 import data.Names;
 import impl.NamesImpl;
+import models.response.appuser.RootGetListUsersResponse;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -37,8 +40,21 @@ public class RandomUtil {
         return password.toString();
     }
 
-    public int generateInvalidId() {
-        return random.nextInt(13, 1000);
+    public String generateUserIdOnProject(RootGetListUsersResponse response) {
+        List<String> listUsersId = new ArrayList<>();
+        for (var user : response.getData()) {
+            if (user.getId().equals(ApiConstants.getMyId())) {
+                continue;
+            }
+            listUsersId.add(user.getId());
+        }
+
+        return listUsersId.get(random.nextInt(listUsersId.size()));
+    }
+
+    public String generateStatusUserOnProject() {
+        List<String> statuses = new ArrayList<>(List.of("active", "pending"));
+        return statuses.get(random.nextInt(statuses.size()));
     }
 
     public int generateValidId() { return random.nextInt(1, 13); }
