@@ -14,6 +14,12 @@ public final class ApiConstants {
     private static final String myId = "54e08546-93b4-4ec2-b3fd-95c01b286458";
 
     @Getter
+    private static final String slug = "message";
+    @Getter
+    private static final String collectionName = "messages";
+
+
+    @Getter
     @Setter
     private static String tokenApp;
 

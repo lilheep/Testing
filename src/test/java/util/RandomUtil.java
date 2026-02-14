@@ -4,6 +4,8 @@ import constants.ApiConstants;
 import data.Names;
 import impl.NamesImpl;
 import models.response.appuser.RootGetListUsersResponse;
+import models.response.collection.RootGetListRecordsResponse;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -58,4 +60,12 @@ public class RandomUtil {
     }
 
     public int generateValidId() { return random.nextInt(1, 13); }
+
+    public String generateRecordId(RootGetListRecordsResponse responseBody) {
+        List<String> listRecordId = new ArrayList<>();
+        for (var record : responseBody.getData()) {
+            listRecordId.add(record.getId());
+        }
+        return listRecordId.get(random.nextInt(listRecordId.size()));
+    }
 }
