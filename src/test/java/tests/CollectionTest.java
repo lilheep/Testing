@@ -1,12 +1,9 @@
 package tests;
 
 import constants.ApiConstants;
-import models.response.collection.RootGetCollectionBySlugResponse;
-import models.response.collection.RootGetCollectionsResponse;
-import models.response.collection.RootGetListRecordsResponse;
+import models.response.collection.*;
 import org.testng.annotations.Test;
 import retrofit2.Response;
-import util.TokenUtil;
 
 import java.io.IOException;
 
@@ -45,6 +42,7 @@ public class CollectionTest extends BaseTest {
     public void getListRecordsTest() throws IOException {
         String slug = ApiConstants.getSlug();
         Response<RootGetListRecordsResponse> response = collectionStep.getListRecords(slug);
+        if (response.code() == 200) System.out.println(response.headers());
         collectionStep.checkResponseIsSuccessful(response);
     }
 
@@ -58,6 +56,50 @@ public class CollectionTest extends BaseTest {
         collectionStep.checkListRecordsOnLimit(responseBody, limit);
     }
 
+    @Test
+    public void getRecordByIdTest() throws IOException {
+        String slug = ApiConstants.getSlug();
+        Response<RootGetListRecordsResponse> responseListRecords = collectionStep.getListRecords(slug);
+        collectionStep.checkResponseIsSuccessful(responseListRecords);
+        RootGetListRecordsResponse responseListRecordsBody = collectionStep.checkResponseBodyNotNull(responseListRecords);
+        String recordId = collectionStep.generateRecordId(responseListRecordsBody);
 
+        Response<RootCreateRecordResponse> responseRecord = collectionStep.getRecordById(slug, recordId);
+        collectionStep.checkResponseIsSuccessful(responseRecord);
+    }
 
+    @Test
+    public void updateRecordTest() throws IOException {
+        String slug = ApiConstants.getSlug();
+        String newMessage = "new message";
+        Response<RootGetListRecordsResponse> responseListRecords = collectionStep.getListRecords(slug);
+        collectionStep.checkResponseIsSuccessful(responseListRecords);
+        RootGetListRecordsResponse responseListRecordsBody = collectionStep.checkResponseBodyNotNull(responseListRecords);
+        String recordId = collectionStep.generateRecordId(responseListRecordsBody);
+
+        Response<RootCreateRecordResponse> responseUpdateRecord = collectionStep.updateRecord(slug, recordId, newMessage);
+        collectionStep.checkResponseIsSuccessful(responseUpdateRecord);
+        RootCreateRecordResponse responseUpdateRecordBody = collectionStep.checkResponseBodyNotNull(responseUpdateRecord);
+
+        Response<RootCreateRecordResponse> responseRecord = collectionStep.getRecordById(slug, recordId);
+        collectionStep.checkResponseIsSuccessful(responseRecord);
+        RootCreateRecordResponse responseRecordBody = collectionStep.checkResponseBodyNotNull(responseRecord);
+
+        collectionStep.checkUpdateRecord(responseUpdateRecordBody, responseRecordBody);
+    }
+
+    @Test
+    public void deleteRecordTest() throws IOException {
+        String slug = ApiConstants.getSlug();
+        Response<RootGetListRecordsResponse> responseListRecords = collectionStep.getListRecords(slug);
+        collectionStep.checkResponseIsSuccessful(responseListRecords);
+        RootGetListRecordsResponse responseListRecordsBody = collectionStep.checkResponseBodyNotNull(responseListRecords);
+        String recordId = collectionStep.generateRecordId(responseListRecordsBody);
+
+        Response<Void> responseDeleteRecord = collectionStep.deleteRecord(slug, recordId);
+        collectionStep.checkResponseIsSuccessful(responseDeleteRecord);
+
+        Response<RootCreateRecordResponse> responseDeletedRecord = collectionStep.getRecordById(slug, recordId);
+        collectionStep.checkDeleteRecord(responseDeletedRecord);
+    }
 }

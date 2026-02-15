@@ -92,6 +92,7 @@ public class BaseTest {
         String slug = ApiConstants.getSlug();
 
         Response<Void> response = collectionStep.deleteCollection(slug);
+        if (response.code() == 204) System.out.println(response.headers());
         collectionStep.checkResponseIsSuccessful(response);
     }
 }

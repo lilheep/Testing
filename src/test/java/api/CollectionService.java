@@ -2,6 +2,7 @@ package api;
 
 import models.request.collection.CreateCollectionRequest;
 import models.request.collection.RootCreateRecordRequest;
+import models.request.collection.RootUpdateRecordRequest;
 import models.request.collection.UpdateCollectionRequest;
 import models.response.collection.RootCreateRecordResponse;
 import models.response.collection.RootGetCollectionBySlugResponse;
@@ -30,4 +31,14 @@ public interface CollectionService {
     @GET("/api/collections/{slug}/records")
     Call<RootGetListRecordsResponse> getListRecords(@Path("slug") String slug,
                                                     @Query("limit") int limit);
+    @GET("/api/collections/{slug}/records/{recordId}")
+    Call<RootCreateRecordResponse> getRecordById(@Path("slug") String slug,
+                                                 @Path("recordId") String recordId);
+    @PUT("/api/collections/{slug}/records/{recordId}")
+    Call<RootCreateRecordResponse> updateRecord(@Path("slug") String slug,
+                                                @Path("recordId") String recordId,
+                                                @Body RootUpdateRecordRequest data);
+    @DELETE("/api/collections/{slug}/records/{recordId}")
+    Call<Void> deleteRecord(@Path("slug") String slug,
+                            @Path("recordId") String recordId);
 }

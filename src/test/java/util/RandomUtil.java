@@ -66,6 +66,7 @@ public class RandomUtil {
         for (var record : responseBody.getData()) {
             listRecordId.add(record.getId());
         }
+        System.out.println(listRecordId);
         return listRecordId.get(random.nextInt(listRecordId.size()));
     }
 }

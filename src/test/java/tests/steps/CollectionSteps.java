@@ -55,7 +55,7 @@ public class CollectionSteps {
     }
 
     @Step("Create record")
-    public Response<RootCreateRecordResponse> createRecord(String slug, String message) throws IOException {
+    public Response<models.response.collection.RootCreateRecordResponse> createRecord(String slug, String message) throws IOException {
         return collectionService.createRecord(slug, new RootCreateRecordRequest(
                 new CreateRecordRequest(message)
         )).execute();
@@ -69,6 +69,27 @@ public class CollectionSteps {
     @Step("Get list records on limit")
     public Response<RootGetListRecordsResponse> getListRecords(String slug, int limit) throws IOException {
         return collectionService.getListRecords(slug, limit).execute();
+    }
+
+    @Step("Get record by id")
+    public Response<RootCreateRecordResponse> getRecordById(String slug, String recordId) throws IOException {
+        return collectionService.getRecordById(slug, recordId).execute();
+    }
+
+    @Step("Update record")
+    public Response<RootCreateRecordResponse> updateRecord(String slug, String recordId, String newMessage) throws IOException {
+        return collectionService.updateRecord(slug, recordId,
+                new RootUpdateRecordRequest(
+                        new UpdateRecordRequest(
+                                new RecordRequest(newMessage)
+                        )
+                )
+        ).execute();
+    }
+
+    @Step("Delete record")
+    public Response<Void> deleteRecord(String slug, String recordId) throws IOException {
+        return collectionService.deleteRecord(slug, recordId).execute();
     }
 
     @Step("Checking success response")
@@ -109,7 +130,7 @@ public class CollectionSteps {
 
         Assertions.assertThat(responseUpdateBody.getData().getVisibility())
                 .withFailMessage("Collection no update")
-                .isEqualTo(visibility);
+                .isEqualTo(responseCollectionBody.getData().getVisibility());
     }
 
     @Step("Check list records on limit")
@@ -122,5 +143,18 @@ public class CollectionSteps {
                 .isEqualTo(limit);
     }
 
+    @Step("Check update record")
+    public void checkUpdateRecord(RootCreateRecordResponse responseUpdateRecordBody,
+                                  RootCreateRecordResponse responseRecordBody) {
+        Assertions.assertThat(responseUpdateRecordBody.getData().getData().getMessage())
+                .withFailMessage("Message not update")
+                .isEqualTo(responseRecordBody.getData().getData().getMessage());
+    }
 
+    @Step("Check delete record")
+    public void checkDeleteRecord(Response<RootCreateRecordResponse> responseRecord) {
+        Assertions.assertThat(responseRecord.code())
+                .withFailMessage("Record no deleted")
+                .isEqualTo(404);
+    }
 }
