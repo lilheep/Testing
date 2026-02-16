@@ -10,11 +10,14 @@ import retrofit2.http.Query;
 public interface ResourceService {
     @GET("/api/unknown")
     Call<GetResourcesResponse> getResourceList();
+
     @GET("/api/unknown")
     Call<GetResourcesResponse> getResourceList(@Query("page") int page);
+
     @GET("/api/unknown")
     Call<GetResourcesResponse> getResourceList(@Query("page") int page,
                                                @Query("per_page") int per_page);
+
     @GET("/api/unknown/{id}")
     Call<GetResourceByIdResponse> getResourceById(@Path("id") int id);
 
