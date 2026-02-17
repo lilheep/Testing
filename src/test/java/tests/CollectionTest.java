@@ -1,13 +1,43 @@
 package tests;
 
 import constants.ApiConstants;
+import models.request.collection.CreateSchemaRequest;
 import models.response.collection.*;
+import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 import retrofit2.Response;
+import tests.steps.AppUserSteps;
+import util.TokenUtil;
 
 import java.io.IOException;
 
 public class CollectionTest extends BaseTest {
+    private final AppUserSteps appUserStep = new AppUserSteps();
+    @BeforeSuite
+    public void createCollection() throws IOException {
+        TokenUtil.setToken(appUserStep);
+        String token = TokenUtil.getToken();
+        collectionStep.getApiKeyClient().setBearerToken(token);
+
+        Response<RootGetCollectionsResponse> responseListCollections = collectionStep.getListCollections();
+        collectionStep.checkResponseIsSuccessful(responseListCollections);
+        RootGetCollectionsResponse responseListCollectionsBody = collectionStep.checkResponseBodyNotNull(responseListCollections);
+
+        if (!responseListCollectionsBody.getData().isEmpty()) {
+            return;
+        }
+
+        String name = ApiConstants.getCollectionName();
+        String slug = ApiConstants.getSlug();
+        CreateSchemaRequest schema = new CreateSchemaRequest("message");
+        String projectId = ApiConstants.getProjectId();
+        String visibility = "public";
+
+        Response<RootGetCollectionBySlugResponse> response = collectionStep.createCollection(name, slug, schema, projectId, visibility);
+        collectionStep.checkResponseIsSuccessful(response);
+
+    }
+
     @Test
     public void updateCollectionTest() throws IOException {
         String slug = ApiConstants.getSlug();

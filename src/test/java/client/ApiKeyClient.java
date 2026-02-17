@@ -13,16 +13,9 @@ import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
 public class ApiKeyClient {
+    @Getter
     private final Retrofit retrofit;
     private final BearerInterceptor bearerInterceptor;
-    @Getter
-    private final UserService userService;
-    @Getter
-    private final ResourceService resourceService;
-    @Getter
-    private final AppUserService appUserService;
-    @Getter
-    private final CollectionService collectionService;
 
     public ApiKeyClient(String apiKey) {
         bearerInterceptor = new BearerInterceptor();
@@ -37,11 +30,6 @@ public class ApiKeyClient {
                 .client(clientForApiKey)
                 .addConverterFactory(JacksonConverterFactory.create())
                 .build();
-
-        userService = retrofit.create(UserService.class);
-        resourceService = retrofit.create(ResourceService.class);
-        appUserService = retrofit.create(AppUserService.class);
-        collectionService = retrofit.create(CollectionService.class);
     }
 
     public void setBearerToken(String bearerToken) {

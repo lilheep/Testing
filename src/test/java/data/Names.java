@@ -9,16 +9,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Names implements NamesImpl {
+    private final String fileNames = "firstName.txt";
+    private final String fileSurnames = "surname.txt";
 
     @Override
     public List<String> getListFirstName() {
-        String fileNames = "firstName.txt";
         return readFile(fileNames);
     }
 
     @Override
     public List<String> getListSurname() {
-        String fileSurnames = "surname.txt";
         return readFile(fileSurnames);
     }
 

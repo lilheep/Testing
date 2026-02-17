@@ -16,14 +16,9 @@ import util.TokenUtil;
 import java.io.IOException;
 
 public class BaseTest {
-    protected static AppUserSteps appUserStep;
-    protected static CollectionSteps collectionStep;
 
     @BeforeSuite
     public void createCollection() throws IOException {
-        appUserStep = new AppUserSteps();
-        collectionStep = new CollectionSteps();
-
         TokenUtil.setToken(appUserStep);
         String token = TokenUtil.getToken();
         collectionStep.getApiKeyClient().setBearerToken(token);

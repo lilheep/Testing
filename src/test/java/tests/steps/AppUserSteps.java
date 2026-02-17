@@ -1,7 +1,6 @@
 package tests.steps;
 
 import api.AppUserService;
-import client.ApiEnvClient;
 import client.ApiKeyClient;
 import constants.ApiConstants;
 import io.qameta.allure.Step;
@@ -20,9 +19,6 @@ public class AppUserSteps {
     @Getter
     private final ApiKeyClient apiKeyClient = new ApiKeyClient(getToken());
     private final AppUserService appUserServiceForApiKey = apiKeyClient.getAppUserService();
-    @Getter
-    private final ApiEnvClient apiEnvClient = new ApiEnvClient(getToken());
-    private final AppUserService appUserServiceForEnvKey = apiEnvClient.getAppUserService();
     private final RandomUtil random = new RandomUtil();
 
     private String getToken() { return ApiConstants.getToken(); }
