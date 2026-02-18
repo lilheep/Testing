@@ -10,13 +10,12 @@ import models.response.user.*;
 import org.assertj.core.api.Assertions;
 import retrofit2.Response;
 import util.RandomUtil;
-import util.TokenUtil;
 
 import java.io.IOException;
 
 public class UserSteps {
     private final ApiKeyClient apiKeyClient = new ApiKeyClient(getToken());
-    private final TokenUtil tokenUtil =
+    private final UserService userService = apiKeyClient.setService(UserService.class);
     private final RandomUtil random = new RandomUtil();
 
     private String getToken() {

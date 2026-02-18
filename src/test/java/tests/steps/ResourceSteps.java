@@ -14,7 +14,7 @@ import java.io.IOException;
 
 public class ResourceSteps {
     private final ApiKeyClient apiKeyClient = new ApiKeyClient(getToken());
-    private final ResourceService resourceService = apiKeyClient.getResourceService();
+    private final ResourceService resourceService = apiKeyClient.setService(ResourceService.class);
     private final RandomUtil random = new RandomUtil();
 
     private String getToken() {

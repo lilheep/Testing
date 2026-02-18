@@ -36,4 +36,6 @@ public class ApiKeyClient {
         bearerInterceptor.setBearerToken(bearerToken);
     }
 
+    public <T> T setService(Class<T> service) { return retrofit.create(service); }
+
 }

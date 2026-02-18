@@ -12,7 +12,6 @@ import models.response.collection.RootGetCollectionsResponse;
 import models.response.collection.RootGetListRecordsResponse;
 import org.assertj.core.api.Assertions;
 import retrofit2.Response;
-import util.ClientUtil;
 import util.RandomUtil;
 
 import java.io.IOException;
@@ -20,8 +19,7 @@ import java.io.IOException;
 public class CollectionSteps {
     @Getter
     private final ApiKeyClient apiKeyClient = new ApiKeyClient(getToken());
-    private final ClientUtil clientUtil = new ClientUtil();
-    private final CollectionService collectionService = apiKeyClient.getCollectionService();
+    private final CollectionService collectionService = apiKeyClient.setService(CollectionService.class);
     private final RandomUtil random = new RandomUtil();
 
     private String getToken() {

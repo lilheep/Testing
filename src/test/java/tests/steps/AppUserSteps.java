@@ -18,7 +18,7 @@ import java.io.IOException;
 public class AppUserSteps {
     @Getter
     private final ApiKeyClient apiKeyClient = new ApiKeyClient(getToken());
-    private final AppUserService appUserServiceForApiKey = apiKeyClient.getAppUserService();
+    private final AppUserService appUserServiceForApiKey = apiKeyClient.setService(AppUserService.class);
     private final RandomUtil random = new RandomUtil();
 
     private String getToken() { return ApiConstants.getToken(); }

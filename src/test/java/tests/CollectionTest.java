@@ -3,22 +3,30 @@ package tests;
 import constants.ApiConstants;
 import models.request.collection.CreateSchemaRequest;
 import models.response.collection.*;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 import retrofit2.Response;
 import tests.steps.AppUserSteps;
+import tests.steps.CollectionSteps;
 import util.TokenUtil;
 
 import java.io.IOException;
 
 public class CollectionTest extends BaseTest {
     private final AppUserSteps appUserStep = new AppUserSteps();
+    private final CollectionSteps collectionStep = new CollectionSteps();
+
     @BeforeSuite
-    public void createCollection() throws IOException {
+    public void setUp() throws IOException {
         TokenUtil.setToken(appUserStep);
         String token = TokenUtil.getToken();
         collectionStep.getApiKeyClient().setBearerToken(token);
+    }
 
+    @BeforeClass
+    public void createCollection() throws IOException {
         Response<RootGetCollectionsResponse> responseListCollections = collectionStep.getListCollections();
         collectionStep.checkResponseIsSuccessful(responseListCollections);
         RootGetCollectionsResponse responseListCollectionsBody = collectionStep.checkResponseBodyNotNull(responseListCollections);
@@ -35,7 +43,21 @@ public class CollectionTest extends BaseTest {
 
         Response<RootGetCollectionBySlugResponse> response = collectionStep.createCollection(name, slug, schema, projectId, visibility);
         collectionStep.checkResponseIsSuccessful(response);
+    }
 
+    @BeforeClass
+    public void createRecords() throws IOException {
+        String slug = ApiConstants.getSlug();
+        String messageFirst = "example_1";
+        String messageSecond = "example_2";
+        String messageThird = "example_3";
+
+        Response<RootCreateRecordResponse> responseFirst = collectionStep.createRecord(slug, messageFirst);
+        collectionStep.checkResponseIsSuccessful(responseFirst);
+        Response<RootCreateRecordResponse> responseSecond = collectionStep.createRecord(slug, messageSecond);
+        collectionStep.checkResponseIsSuccessful(responseSecond);
+        Response<RootCreateRecordResponse> responseThird = collectionStep.createRecord(slug, messageThird);
+        collectionStep.checkResponseIsSuccessful(responseThird);
     }
 
     @Test
@@ -131,5 +153,18 @@ public class CollectionTest extends BaseTest {
 
         Response<RootCreateRecordResponse> responseDeletedRecord = collectionStep.getRecordById(slug, recordId);
         collectionStep.checkDeleteRecord(responseDeletedRecord);
+    }
+
+    @AfterSuite
+    public void deleteCollection() throws IOException {
+        TokenUtil.setToken(appUserStep);
+        String token = TokenUtil.getToken();
+        collectionStep.getApiKeyClient().setBearerToken(token);
+
+        String slug = ApiConstants.getSlug();
+
+        Response<Void> response = collectionStep.deleteCollection(slug);
+        if (response.code() == 204) System.out.println(response.headers());
+        collectionStep.checkResponseIsSuccessful(response);
     }
 }
