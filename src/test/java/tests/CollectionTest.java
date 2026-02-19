@@ -25,8 +25,7 @@ public class CollectionTest extends BaseTest {
         collectionStep.getApiKeyClient().setBearerToken(token);
     }
 
-    @BeforeClass
-    public void createCollection() throws IOException {
+    private void createCollection() throws IOException {
         Response<RootGetCollectionsResponse> responseListCollections = collectionStep.getListCollections();
         collectionStep.checkResponseIsSuccessful(responseListCollections);
         RootGetCollectionsResponse responseListCollectionsBody = collectionStep.checkResponseBodyNotNull(responseListCollections);
@@ -45,8 +44,7 @@ public class CollectionTest extends BaseTest {
         collectionStep.checkResponseIsSuccessful(response);
     }
 
-    @BeforeClass
-    public void createRecords() throws IOException {
+    private void createRecords() throws IOException {
         String slug = ApiConstants.getSlug();
         String messageFirst = "example_1";
         String messageSecond = "example_2";
@@ -58,6 +56,12 @@ public class CollectionTest extends BaseTest {
         collectionStep.checkResponseIsSuccessful(responseSecond);
         Response<RootCreateRecordResponse> responseThird = collectionStep.createRecord(slug, messageThird);
         collectionStep.checkResponseIsSuccessful(responseThird);
+    }
+
+    @BeforeClass
+    public void createCollectionAndRecords() throws IOException {
+        createCollection();
+        createRecords();
     }
 
     @Test
