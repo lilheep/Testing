@@ -1,6 +1,5 @@
 package tests;
 
-import client.ApiKeyClient;
 import constants.ApiConstants;
 import models.response.appuser.*;
 import org.testng.annotations.BeforeClass;
