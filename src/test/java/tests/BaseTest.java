@@ -1,20 +1,32 @@
 package tests;
 
-import constants.ApiConstants;
-import models.request.collection.CreateSchemaRequest;
-import models.response.collection.RootCreateRecordResponse;
-import models.response.collection.RootGetCollectionBySlugResponse;
-import models.response.collection.RootGetCollectionsResponse;
-import org.testng.annotations.AfterSuite;
+import lombok.Getter;
+import lombok.Setter;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeSuite;
-import retrofit2.Response;
 import tests.steps.AppUserSteps;
 import tests.steps.CollectionSteps;
-import util.TokenUtil;
-
-import java.io.IOException;
+import tests.steps.ResourceSteps;
+import tests.steps.UserSteps;
 
 public class BaseTest {
+    @Getter
+    @Setter
+    protected String tokenApp;
 
+    @Getter
+    @Setter
+    protected String sessionToken;
+
+    protected UserSteps userStep;
+    protected ResourceSteps resourceStep;
+    protected AppUserSteps appUserStep;
+    protected CollectionSteps collectionStep;
+
+    @BeforeClass
+    void setSteps() {
+        userStep = new UserSteps(this);
+        resourceStep = new ResourceSteps(this);
+        appUserStep = new AppUserSteps(this);
+        collectionStep = new CollectionSteps(this);
+    }
 }

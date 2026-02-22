@@ -1,7 +1,6 @@
 package constants;
 
 import lombok.Getter;
-import lombok.Setter;
 
 public final class ApiConstants {
     @Getter
@@ -17,15 +16,6 @@ public final class ApiConstants {
     private static final String slug = "message";
     @Getter
     private static final String collectionName = "messages";
-
-
-    @Getter
-    @Setter
-    private static String tokenApp;
-
-    @Getter
-    @Setter
-    private static String sessionToken;
 
     @Getter
     private static final String projectId = "3156";

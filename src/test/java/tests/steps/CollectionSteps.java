@@ -12,15 +12,23 @@ import models.response.collection.RootGetCollectionsResponse;
 import models.response.collection.RootGetListRecordsResponse;
 import org.assertj.core.api.Assertions;
 import retrofit2.Response;
+import tests.BaseTest;
 import util.RandomUtil;
 
 import java.io.IOException;
 
 public class CollectionSteps {
+    private final BaseTest baseTest;
     @Getter
-    private final ApiKeyClient apiKeyClient = new ApiKeyClient(getToken());
-    private final CollectionService collectionService = apiKeyClient.setService(CollectionService.class);
+    private final ApiKeyClient apiKeyClient;
+    private final CollectionService collectionService;
     private final RandomUtil random = new RandomUtil();
+
+    public CollectionSteps(BaseTest baseTest) {
+        this.baseTest = baseTest;
+        apiKeyClient = new ApiKeyClient(getToken());
+        collectionService = apiKeyClient.setService(CollectionService.class);
+    }
 
     private String getToken() {
         return ApiConstants.getToken();

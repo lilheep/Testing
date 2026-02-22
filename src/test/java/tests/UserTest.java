@@ -2,21 +2,11 @@ package tests;
 
 import models.response.user.*;
 import org.assertj.core.api.Assertions;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import retrofit2.Response;
-import tests.steps.UserSteps;
-
 import java.io.IOException;
 
-public class UserTest {
-    private UserSteps userStep;
-
-    @BeforeClass
-    public void setUp() {
-        userStep = new UserSteps();
-    }
-
+public class UserTest extends BaseTest {
     @Test
     public void getUsersTest() throws IOException {
         int page = 1;

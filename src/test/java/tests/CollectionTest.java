@@ -5,24 +5,22 @@ import models.request.collection.CreateSchemaRequest;
 import models.response.collection.*;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 import retrofit2.Response;
-import tests.steps.AppUserSteps;
-import tests.steps.CollectionSteps;
 import util.TokenUtil;
 
 import java.io.IOException;
 
 public class CollectionTest extends BaseTest {
-    private final AppUserSteps appUserStep = new AppUserSteps();
-    private final CollectionSteps collectionStep = new CollectionSteps();
-
-    @BeforeSuite
+    @BeforeClass
     public void setUp() throws IOException {
+        this.setSteps();
         TokenUtil.setToken(appUserStep);
         String token = TokenUtil.getToken();
         collectionStep.getApiKeyClient().setBearerToken(token);
+
+        createCollection();
+        createRecords();
     }
 
     private void createCollection() throws IOException {
@@ -56,12 +54,6 @@ public class CollectionTest extends BaseTest {
         collectionStep.checkResponseIsSuccessful(responseSecond);
         Response<RootCreateRecordResponse> responseThird = collectionStep.createRecord(slug, messageThird);
         collectionStep.checkResponseIsSuccessful(responseThird);
-    }
-
-    @BeforeClass
-    public void createCollectionAndRecords() throws IOException {
-        createCollection();
-        createRecords();
     }
 
     @Test

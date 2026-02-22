@@ -8,14 +8,22 @@ import models.response.resource.GetResourceByIdResponse;
 import models.response.resource.GetResourcesResponse;
 import org.assertj.core.api.Assertions;
 import retrofit2.Response;
+import tests.BaseTest;
 import util.RandomUtil;
 
 import java.io.IOException;
 
 public class ResourceSteps {
-    private final ApiKeyClient apiKeyClient = new ApiKeyClient(getToken());
-    private final ResourceService resourceService = apiKeyClient.setService(ResourceService.class);
+    private final BaseTest baseTest;
+    private final ApiKeyClient apiKeyClient;
+    private final ResourceService resourceService;
     private final RandomUtil random = new RandomUtil();
+
+    public ResourceSteps(BaseTest baseTest) {
+        this.baseTest = baseTest;
+        apiKeyClient = new ApiKeyClient(getToken());
+        resourceService = apiKeyClient.setService(ResourceService.class);
+    }
 
     private String getToken() {
         return ApiConstants.getToken();

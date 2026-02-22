@@ -25,6 +25,7 @@ public class TokenUtil {
             sessionToken = responseVerifyBody.getData().getSessionToken();
         }
     }
+
     public static String getToken() {
         return sessionToken;
     }

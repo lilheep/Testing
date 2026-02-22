@@ -9,14 +9,22 @@ import models.request.user.UpdateUserRequest;
 import models.response.user.*;
 import org.assertj.core.api.Assertions;
 import retrofit2.Response;
+import tests.BaseTest;
 import util.RandomUtil;
 
 import java.io.IOException;
 
 public class UserSteps {
-    private final ApiKeyClient apiKeyClient = new ApiKeyClient(getToken());
-    private final UserService userService = apiKeyClient.setService(UserService.class);
+    private final BaseTest baseTest;
+    private final ApiKeyClient apiKeyClient;
+    private final UserService userService;
     private final RandomUtil random = new RandomUtil();
+
+    public UserSteps(BaseTest baseTest) {
+        this.baseTest = baseTest;
+        apiKeyClient = new ApiKeyClient(getToken());
+        userService = apiKeyClient.setService(UserService.class);
+    }
 
     private String getToken() {
         return ApiConstants.getToken();

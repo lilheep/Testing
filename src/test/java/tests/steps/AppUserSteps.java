@@ -12,14 +12,22 @@ import models.request.appuser.VerifyTokenRequest;
 import models.response.appuser.*;
 import org.assertj.core.api.Assertions;
 import retrofit2.Response;
+import tests.BaseTest;
 import util.RandomUtil;
 import java.io.IOException;
 
 public class AppUserSteps {
+    private final BaseTest baseTest;
     @Getter
-    private final ApiKeyClient apiKeyClient = new ApiKeyClient(getToken());
-    private final AppUserService appUserServiceForApiKey = apiKeyClient.setService(AppUserService.class);
+    private final ApiKeyClient apiKeyClient;
+    private final AppUserService appUserServiceForApiKey;
     private final RandomUtil random = new RandomUtil();
+
+    public AppUserSteps(BaseTest baseTest) {
+        this.baseTest = baseTest;
+        this.apiKeyClient = new ApiKeyClient(getToken());
+        this.appUserServiceForApiKey = apiKeyClient.setService(AppUserService.class);
+    }
 
     private String getToken() { return ApiConstants.getToken(); }
 
@@ -32,7 +40,7 @@ public class AppUserSteps {
 
     @Step("Verify token")
     public Response<RootVerifyTokenResponse> verifyToken() throws IOException {
-        return appUserServiceForApiKey.verifyToken(new VerifyTokenRequest(ApiConstants.getTokenApp()))
+        return appUserServiceForApiKey.verifyToken(new VerifyTokenRequest(baseTest.getTokenApp()))
                 .execute();
     }
 
@@ -103,7 +111,7 @@ public class AppUserSteps {
 
     @Step("Set value token app")
     public void setValueTokenApp(LoginUserResponse loginUserResponse) {
-        ApiConstants.setTokenApp(loginUserResponse.getToken());
+        baseTest.setTokenApp(loginUserResponse.getToken());
     }
 
     @Step("Generate valid user ID")

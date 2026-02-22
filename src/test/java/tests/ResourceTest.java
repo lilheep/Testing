@@ -2,21 +2,11 @@ package tests;
 
 import models.response.resource.GetResourceByIdResponse;
 import models.response.resource.GetResourcesResponse;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import retrofit2.Response;
-import tests.steps.ResourceSteps;
-
 import java.io.IOException;
 
-public class ResourceTest {
-    private ResourceSteps resourceStep;
-
-    @BeforeClass
-    public void setUp() {
-        resourceStep = new ResourceSteps();
-    }
-
+public class ResourceTest extends BaseTest {
     @Test
     public void getResourcesTest() throws IOException {
         int page = 1;

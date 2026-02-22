@@ -5,14 +5,11 @@ import models.response.appuser.*;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import retrofit2.Response;
-import tests.steps.AppUserSteps;
 import util.TokenUtil;
 
 import java.io.IOException;
 
 public class AppUserTest extends BaseTest {
-    private final AppUserSteps appUserStep = new AppUserSteps();
-
     @BeforeClass
     public void setUp() throws IOException {
         TokenUtil.setToken(appUserStep);
