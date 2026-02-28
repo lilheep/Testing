@@ -3,6 +3,7 @@ package config;
 import org.aeonbits.owner.ConfigFactory;
 
 public class ConfigProvider {
+
     private static final ApiConfig config =
             ConfigFactory.create(ApiConfig.class);
 
@@ -10,9 +11,7 @@ public class ConfigProvider {
         return config.baseUrl();
     }
 
-    public static String getEmail() {
-        return config.email();
-    }
+    public static String getEmail() { return config.email(); }
 
     public static String getMyId() {
         return config.myId();
@@ -31,7 +30,7 @@ public class ConfigProvider {
     }
 
     public static String getToken() {
-        String token = config.apiKey();
+        String token = System.getProperty("apiKey");
 
         if (token == null || token.isEmpty()) {
             throw new RuntimeException("Token is null");

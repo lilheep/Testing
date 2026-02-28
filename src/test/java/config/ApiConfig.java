@@ -2,8 +2,7 @@ package config;
 
 import org.aeonbits.owner.Config;
 
-@Config.Sources({"classpath:api.properties",
-                 "system:properties"})
+@Config.Sources({"classpath:api.properties"})
 public interface ApiConfig extends Config {
     @Key("baseUrl")
     String baseUrl();
@@ -17,6 +16,4 @@ public interface ApiConfig extends Config {
     String collectionName();
     @Key("projectId")
     String projectId();
-    @Key("apiKey")
-    String apiKey();
 }
