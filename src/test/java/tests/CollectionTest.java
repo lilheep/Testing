@@ -1,6 +1,6 @@
 package tests;
 
-import constants.ApiConstants;
+import config.ConfigProvider;
 import models.request.collection.CreateSchemaRequest;
 import models.response.collection.*;
 import org.testng.annotations.AfterSuite;
@@ -32,10 +32,10 @@ public class CollectionTest extends BaseTest {
             return;
         }
 
-        String name = ApiConstants.getCollectionName();
-        String slug = ApiConstants.getSlug();
+        String name = ConfigProvider.getCollectionName();
+        String slug = ConfigProvider.getSlug();
         CreateSchemaRequest schema = new CreateSchemaRequest("message");
-        String projectId = ApiConstants.getProjectId();
+        String projectId = ConfigProvider.getProjectId();
         String visibility = "public";
 
         Response<RootGetCollectionBySlugResponse> response = collectionStep.createCollection(name, slug, schema, projectId, visibility);
@@ -43,7 +43,7 @@ public class CollectionTest extends BaseTest {
     }
 
     private void createRecords() throws IOException {
-        String slug = ApiConstants.getSlug();
+        String slug = ConfigProvider.getSlug();
         String messageFirst = "example_1";
         String messageSecond = "example_2";
         String messageThird = "example_3";
@@ -58,7 +58,7 @@ public class CollectionTest extends BaseTest {
 
     @Test
     public void updateCollectionTest() throws IOException {
-        String slug = ApiConstants.getSlug();
+        String slug = ConfigProvider.getSlug();
         String visibility = "private";
         Response<RootGetCollectionBySlugResponse> responseUpdateCollection = collectionStep.updateCollection(slug, visibility);
         collectionStep.checkResponseIsSuccessful(responseUpdateCollection);
@@ -79,7 +79,7 @@ public class CollectionTest extends BaseTest {
 
     @Test
     public void getCollectionBySlugTest() throws IOException {
-        String slug = ApiConstants.getSlug();
+        String slug = ConfigProvider.getSlug();
         Response<RootGetCollectionBySlugResponse> response = collectionStep.getCollectionBySlug(slug);
         collectionStep.checkResponseIsSuccessful(response);
         RootGetCollectionBySlugResponse responseBody = collectionStep.checkResponseBodyNotNull(response);
@@ -88,7 +88,7 @@ public class CollectionTest extends BaseTest {
 
     @Test
     public void getListRecordsTest() throws IOException {
-        String slug = ApiConstants.getSlug();
+        String slug = ConfigProvider.getSlug();
         Response<RootGetListRecordsResponse> response = collectionStep.getListRecords(slug);
         if (response.code() == 200) System.out.println(response.headers());
         collectionStep.checkResponseIsSuccessful(response);
@@ -96,7 +96,7 @@ public class CollectionTest extends BaseTest {
 
     @Test
     public void getListRecordsOnLimitTest() throws IOException {
-        String slug = ApiConstants.getSlug();
+        String slug = ConfigProvider.getSlug();
         int limit = 1;
         Response<RootGetListRecordsResponse> response = collectionStep.getListRecords(slug, limit);
         collectionStep.checkResponseIsSuccessful(response);
@@ -106,7 +106,7 @@ public class CollectionTest extends BaseTest {
 
     @Test
     public void getRecordByIdTest() throws IOException {
-        String slug = ApiConstants.getSlug();
+        String slug = ConfigProvider.getSlug();
         Response<RootGetListRecordsResponse> responseListRecords = collectionStep.getListRecords(slug);
         collectionStep.checkResponseIsSuccessful(responseListRecords);
         RootGetListRecordsResponse responseListRecordsBody = collectionStep.checkResponseBodyNotNull(responseListRecords);
@@ -118,7 +118,7 @@ public class CollectionTest extends BaseTest {
 
     @Test
     public void updateRecordTest() throws IOException {
-        String slug = ApiConstants.getSlug();
+        String slug = ConfigProvider.getSlug();
         String newMessage = "new message";
         Response<RootGetListRecordsResponse> responseListRecords = collectionStep.getListRecords(slug);
         collectionStep.checkResponseIsSuccessful(responseListRecords);
@@ -138,7 +138,7 @@ public class CollectionTest extends BaseTest {
 
     @Test
     public void deleteRecordTest() throws IOException {
-        String slug = ApiConstants.getSlug();
+        String slug = ConfigProvider.getSlug();
         Response<RootGetListRecordsResponse> responseListRecords = collectionStep.getListRecords(slug);
         collectionStep.checkResponseIsSuccessful(responseListRecords);
         RootGetListRecordsResponse responseListRecordsBody = collectionStep.checkResponseBodyNotNull(responseListRecords);
@@ -157,7 +157,7 @@ public class CollectionTest extends BaseTest {
         String token = TokenUtil.getToken();
         collectionStep.getApiKeyClient().setBearerToken(token);
 
-        String slug = ApiConstants.getSlug();
+        String slug = ConfigProvider.getSlug();
 
         Response<Void> response = collectionStep.deleteCollection(slug);
         if (response.code() == 204) System.out.println(response.headers());

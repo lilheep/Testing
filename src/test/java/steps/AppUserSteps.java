@@ -1,8 +1,8 @@
-package tests.steps;
+package steps;
 
 import api.AppUserService;
 import client.ApiKeyClient;
-import constants.ApiConstants;
+import config.ConfigProvider;
 import io.qameta.allure.Step;
 import lombok.Getter;
 import models.request.appuser.AddUserProjectRequest;
@@ -29,7 +29,7 @@ public class AppUserSteps {
         this.appUserServiceForApiKey = apiKeyClient.setService(AppUserService.class);
     }
 
-    private String getToken() { return ApiConstants.getToken(); }
+    private String getToken() { return ConfigProvider.getToken(); }
 
     @Step("Login user")
     public Response<RootLoginUserResponse> loginUser() throws IOException {
@@ -98,16 +98,16 @@ public class AppUserSteps {
 
     @Step("Get user email")
     public String getUserEmail() {
-        return ApiConstants.getEmail();
+        return ConfigProvider.getEmail();
     }
 
     @Step("Get project id")
     public String getProjectId() {
-        return ApiConstants.getProjectId();
+        return ConfigProvider.getProjectId();
     }
 
     @Step("Get my user id")
-    public String getMyUserId() { return ApiConstants.getMyId(); }
+    public String getMyUserId() { return ConfigProvider.getMyId(); }
 
     @Step("Set value token app")
     public void setValueTokenApp(LoginUserResponse loginUserResponse) {

@@ -1,8 +1,8 @@
-package tests.steps;
+package steps;
 
 import api.ResourceService;
 import client.ApiKeyClient;
-import constants.ApiConstants;
+import config.ConfigProvider;
 import io.qameta.allure.Step;
 import models.response.resource.GetResourceByIdResponse;
 import models.response.resource.GetResourcesResponse;
@@ -26,7 +26,7 @@ public class ResourceSteps {
     }
 
     private String getToken() {
-        return ApiConstants.getToken();
+        return ConfigProvider.getToken();
     }
 
     @Step("Getting list resources")

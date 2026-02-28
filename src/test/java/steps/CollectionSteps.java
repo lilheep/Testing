@@ -1,8 +1,8 @@
-package tests.steps;
+package steps;
 
 import api.CollectionService;
 import client.ApiKeyClient;
-import constants.ApiConstants;
+import config.ConfigProvider;
 import io.qameta.allure.Step;
 import lombok.Getter;
 import models.request.collection.*;
@@ -31,7 +31,7 @@ public class CollectionSteps {
     }
 
     private String getToken() {
-        return ApiConstants.getToken();
+        return ConfigProvider.getToken();
     }
 
     @Step("Create collection")

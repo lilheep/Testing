@@ -3,10 +3,10 @@ package tests;
 import lombok.Getter;
 import lombok.Setter;
 import org.testng.annotations.BeforeClass;
-import tests.steps.AppUserSteps;
-import tests.steps.CollectionSteps;
-import tests.steps.ResourceSteps;
-import tests.steps.UserSteps;
+import steps.AppUserSteps;
+import steps.CollectionSteps;
+import steps.ResourceSteps;
+import steps.UserSteps;
 
 public class BaseTest {
     @Getter

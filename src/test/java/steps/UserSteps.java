@@ -1,8 +1,8 @@
-package tests.steps;
+package steps;
 
 import api.UserService;
 import client.ApiKeyClient;
-import constants.ApiConstants;
+import config.ConfigProvider;
 import io.qameta.allure.Step;
 import models.request.user.RegisterOrLoginUserRequest;
 import models.request.user.UpdateUserRequest;
@@ -27,7 +27,7 @@ public class UserSteps {
     }
 
     private String getToken() {
-        return ApiConstants.getToken();
+        return ConfigProvider.getToken();
     }
 
     @Step("Getting list users")

@@ -1,8 +1,7 @@
 package util;
 
-import constants.ApiConstants;
+import config.ConfigProvider;
 import data.Names;
-import impl.NamesImpl;
 import models.response.appuser.RootGetListUsersResponse;
 import models.response.collection.RootGetListRecordsResponse;
 
@@ -14,7 +13,7 @@ public class RandomUtil {
     private final Random random = new Random();
     private final String allowedSymbols =
             "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$%&'*+-/=?^_`{|}~";
-    private final NamesImpl names = new Names();
+    private final Names names = new Names();
     private final List<String> firstNames = names.getListFirstName();
     private final List<String> surnames = names.getListSurname();
 
@@ -45,7 +44,7 @@ public class RandomUtil {
     public String generateUserIdOnProject(RootGetListUsersResponse response) {
         List<String> listUsersId = new ArrayList<>();
         for (var user : response.getData()) {
-            if (user.getId().equals(ApiConstants.getMyId())) {
+            if (user.getId().equals(ConfigProvider.getMyId())) {
                 continue;
             }
             listUsersId.add(user.getId());

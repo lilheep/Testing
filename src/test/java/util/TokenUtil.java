@@ -3,7 +3,7 @@ package util;
 import models.response.appuser.RootLoginUserResponse;
 import models.response.appuser.RootVerifyTokenResponse;
 import retrofit2.Response;
-import tests.steps.AppUserSteps;
+import steps.AppUserSteps;
 
 import java.io.IOException;
 

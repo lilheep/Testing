@@ -1,19 +1,13 @@
 package client;
 
-import api.AppUserService;
-import api.CollectionService;
-import api.ResourceService;
-import api.UserService;
 import client.interceptor.ApiKeyInterceptor;
 import client.interceptor.BearerInterceptor;
-import constants.ApiConstants;
-import lombok.Getter;
+import config.ConfigProvider;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
 public class ApiKeyClient {
-    @Getter
     private final Retrofit retrofit;
     private final BearerInterceptor bearerInterceptor;
 
@@ -26,7 +20,7 @@ public class ApiKeyClient {
                 .build();
 
         retrofit = new Retrofit.Builder()
-                .baseUrl(ApiConstants.getBaseUrl())
+                .baseUrl(ConfigProvider.getBaseUrl())
                 .client(clientForApiKey)
                 .addConverterFactory(JacksonConverterFactory.create())
                 .build();
@@ -37,5 +31,4 @@ public class ApiKeyClient {
     }
 
     public <T> T setService(Class<T> service) { return retrofit.create(service); }
-
 }

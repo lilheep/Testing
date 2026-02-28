@@ -1,6 +1,6 @@
 package tests;
 
-import constants.ApiConstants;
+import config.ConfigProvider;
 import models.response.appuser.*;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -79,7 +79,7 @@ public class AppUserTest extends BaseTest {
 
     @Test
     public void getListUsersOnProjectTest() throws IOException {
-        Response<RootGetListUsersOnProjectResponse> response = appUserStep.getListUsersOnProject(ApiConstants.getProjectId());
+        Response<RootGetListUsersOnProjectResponse> response = appUserStep.getListUsersOnProject(ConfigProvider.getProjectId());
         appUserStep.checkResponseIsSuccessful(response);
     }
 
@@ -87,7 +87,7 @@ public class AppUserTest extends BaseTest {
     public void getListAllUsersOnProjectTest() throws IOException {
         String status = "all";
         Response<RootGetListUsersOnProjectResponse> response = appUserStep.getListUsersOnProject(
-                ApiConstants.getProjectId(), status
+                ConfigProvider.getProjectId(), status
         );
         appUserStep.checkResponseIsSuccessful(response);
     }
@@ -96,7 +96,7 @@ public class AppUserTest extends BaseTest {
     public void getListUsersOnProjectWithFilterTest() throws IOException {
         String status = appUserStep.generateStatusUser();
         Response<RootGetListUsersOnProjectResponse> response = appUserStep.
-                getListUsersOnProject(ApiConstants.getProjectId(), status);
+                getListUsersOnProject(ConfigProvider.getProjectId(), status);
         appUserStep.checkResponseIsSuccessful(response);
         RootGetListUsersOnProjectResponse responseBody = appUserStep.checkResponseBodyNotNull(response);
         appUserStep.checkListUsersOnProject(responseBody, status);
@@ -105,13 +105,13 @@ public class AppUserTest extends BaseTest {
     @Test
     public void getTotalUsersOnProjectTest() throws IOException {
         Response<GetTotalUsersOnProjectResponse> responseTotal = appUserStep
-                .getTotalUsersOnProjectResponse(ApiConstants.getProjectId());
+                .getTotalUsersOnProjectResponse(ConfigProvider.getProjectId());
         appUserStep.checkResponseIsSuccessful(responseTotal);
         GetTotalUsersOnProjectResponse responseTotalBody = appUserStep.checkResponseBodyNotNull(responseTotal);
 
         String status = "active";
         Response<RootGetListUsersOnProjectResponse> responseUsers = appUserStep
-                .getListUsersOnProject(ApiConstants.getProjectId(), status);
+                .getListUsersOnProject(ConfigProvider.getProjectId(), status);
         appUserStep.checkResponseIsSuccessful(responseUsers);
         RootGetListUsersOnProjectResponse responseBodyUsers = appUserStep.checkResponseBodyNotNull(responseUsers);
 
