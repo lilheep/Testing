@@ -4,11 +4,10 @@ import models.response.resource.GetResourceByIdResponse;
 import models.response.resource.GetResourcesResponse;
 import org.testng.annotations.Test;
 import retrofit2.Response;
-import java.io.IOException;
 
 public class ResourceTest extends BaseTest {
     @Test
-    public void getResourcesTest() throws IOException {
+    public void getResourcesTest() {
         int page = 1;
         int perPage = 6;
         int total = 12;
@@ -21,7 +20,7 @@ public class ResourceTest extends BaseTest {
     }
 
     @Test
-    public void getResourcesOnPageTest() throws IOException {
+    public void getResourcesOnPageTest() {
         int page = 2;
         int perPage = 6;
         int total = 12;
@@ -34,7 +33,7 @@ public class ResourceTest extends BaseTest {
     }
 
     @Test
-    public void getResourcesOnPageAndPerTest() throws IOException {
+    public void getResourcesOnPageAndPerTest() {
         int page = 3;
         int perPage = 4;
         int total = 12;
@@ -47,7 +46,7 @@ public class ResourceTest extends BaseTest {
     }
 
     @Test
-    public void getResourceByIdTest() throws IOException {
+    public void getResourceByIdTest() {
         int id = resourceStep.generateValidId();
         Response<GetResourceByIdResponse> response = resourceStep.getResourceById(id);
 

@@ -5,6 +5,7 @@ import client.ApiKeyClient;
 import config.ConfigProvider;
 import io.qameta.allure.Step;
 import lombok.Getter;
+import lombok.SneakyThrows;
 import models.request.collection.*;
 import models.response.collection.RootCreateRecordResponse;
 import models.response.collection.RootGetCollectionBySlugResponse;
@@ -15,7 +16,6 @@ import retrofit2.Response;
 import tests.BaseTest;
 import util.RandomUtil;
 
-import java.io.IOException;
 
 public class CollectionSteps {
     private final BaseTest baseTest;
@@ -35,57 +35,67 @@ public class CollectionSteps {
     }
 
     @Step("Create collection")
+    @SneakyThrows
     public Response<RootGetCollectionBySlugResponse> createCollection(
-            String name, String slug, CreateSchemaRequest schema, String projectId, String visibility) throws IOException {
+            String name, String slug, CreateSchemaRequest schema, String projectId, String visibility) {
         return collectionService.createCollection(new CreateCollectionRequest(
                 name, slug, schema, projectId, visibility
         )).execute();
     }
 
     @Step("Delete collection by slug")
-    public Response<Void> deleteCollection(String slug) throws IOException {
+    @SneakyThrows
+    public Response<Void> deleteCollection(String slug) {
         return collectionService.deleteCollection(slug).execute();
     }
 
     @Step("Update collection")
-    public Response<RootGetCollectionBySlugResponse> updateCollection(String slug, String visibility) throws IOException {
+    @SneakyThrows
+    public Response<RootGetCollectionBySlugResponse> updateCollection(String slug, String visibility) {
         return collectionService.updateCollection(slug, new UpdateCollectionRequest(visibility)).execute();
     }
 
     @Step("Get list collections")
-    public Response<RootGetCollectionsResponse> getListCollections() throws IOException {
+    @SneakyThrows
+    public Response<RootGetCollectionsResponse> getListCollections() {
         return collectionService.getListCollections().execute();
     }
 
     @Step("Get collection by slug")
-    public Response<RootGetCollectionBySlugResponse> getCollectionBySlug(String slug) throws IOException {
+    @SneakyThrows
+    public Response<RootGetCollectionBySlugResponse> getCollectionBySlug(String slug) {
         return collectionService.getCollectionBySlug(slug).execute();
     }
 
     @Step("Create record")
-    public Response<models.response.collection.RootCreateRecordResponse> createRecord(String slug, String message) throws IOException {
+    @SneakyThrows
+    public Response<models.response.collection.RootCreateRecordResponse> createRecord(String slug, String message) {
         return collectionService.createRecord(slug, new RootCreateRecordRequest(
                 new CreateRecordRequest(message)
         )).execute();
     }
 
     @Step("Get list records")
-    public Response<RootGetListRecordsResponse> getListRecords(String slug) throws IOException {
+    @SneakyThrows
+    public Response<RootGetListRecordsResponse> getListRecords(String slug){
         return collectionService.getListRecords(slug).execute();
     }
 
     @Step("Get list records on limit")
-    public Response<RootGetListRecordsResponse> getListRecords(String slug, int limit) throws IOException {
+    @SneakyThrows
+    public Response<RootGetListRecordsResponse> getListRecords(String slug, int limit) {
         return collectionService.getListRecords(slug, limit).execute();
     }
 
     @Step("Get record by id")
-    public Response<RootCreateRecordResponse> getRecordById(String slug, String recordId) throws IOException {
+    @SneakyThrows
+    public Response<RootCreateRecordResponse> getRecordById(String slug, String recordId) {
         return collectionService.getRecordById(slug, recordId).execute();
     }
 
     @Step("Update record")
-    public Response<RootCreateRecordResponse> updateRecord(String slug, String recordId, String newMessage) throws IOException {
+    @SneakyThrows
+    public Response<RootCreateRecordResponse> updateRecord(String slug, String recordId, String newMessage) {
         return collectionService.updateRecord(slug, recordId,
                 new RootUpdateRecordRequest(
                         new UpdateRecordRequest(
@@ -96,7 +106,8 @@ public class CollectionSteps {
     }
 
     @Step("Delete record")
-    public Response<Void> deleteRecord(String slug, String recordId) throws IOException {
+    @SneakyThrows
+    public Response<Void> deleteRecord(String slug, String recordId) {
         return collectionService.deleteRecord(slug, recordId).execute();
     }
 

@@ -1,9 +1,11 @@
 package models.request.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class UpdateUserRequest {
     @JsonProperty("email")
     private String email;
@@ -13,11 +15,4 @@ public class UpdateUserRequest {
     private String lastName;
     @JsonProperty("avatar")
     private String avatar;
-
-    public UpdateUserRequest(String email, String firstName, String lastName, String avatar) {
-        this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.avatar = avatar;
-    }
 }

@@ -4,7 +4,6 @@ import config.ConfigProvider;
 import data.Names;
 import models.response.appuser.RootGetListUsersResponse;
 import models.response.collection.RootGetListRecordsResponse;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;

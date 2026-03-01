@@ -4,6 +4,7 @@ import api.ResourceService;
 import client.ApiKeyClient;
 import config.ConfigProvider;
 import io.qameta.allure.Step;
+import lombok.SneakyThrows;
 import models.response.resource.GetResourceByIdResponse;
 import models.response.resource.GetResourcesResponse;
 import org.assertj.core.api.Assertions;
@@ -11,7 +12,6 @@ import retrofit2.Response;
 import tests.BaseTest;
 import util.RandomUtil;
 
-import java.io.IOException;
 
 public class ResourceSteps {
     private final BaseTest baseTest;
@@ -30,22 +30,26 @@ public class ResourceSteps {
     }
 
     @Step("Getting list resources")
-    public Response<GetResourcesResponse> getResourceList() throws IOException {
+    @SneakyThrows
+    public Response<GetResourcesResponse> getResourceList() {
         return resourceService.getResourceList().execute();
     }
 
     @Step("Getting list resources on page")
-    public Response<GetResourcesResponse> getResourceList(int page) throws IOException {
+    @SneakyThrows
+    public Response<GetResourcesResponse> getResourceList(int page) {
         return resourceService.getResourceList(page).execute();
     }
 
     @Step("Getting list resources on page and per page")
-    public Response<GetResourcesResponse> getResourceList(int page, int perPage) throws IOException {
+    @SneakyThrows
+    public Response<GetResourcesResponse> getResourceList(int page, int perPage) {
         return resourceService.getResourceList(page, perPage).execute();
     }
 
     @Step("Getting resource by id")
-    public Response<GetResourceByIdResponse> getResourceById(int id) throws IOException {
+    @SneakyThrows
+    public Response<GetResourceByIdResponse> getResourceById(int id) {
         return resourceService.getResourceById(id).execute();
     }
 

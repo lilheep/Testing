@@ -4,6 +4,7 @@ import api.UserService;
 import client.ApiKeyClient;
 import config.ConfigProvider;
 import io.qameta.allure.Step;
+import lombok.SneakyThrows;
 import models.request.user.RegisterOrLoginUserRequest;
 import models.request.user.UpdateUserRequest;
 import models.response.user.*;
@@ -12,7 +13,6 @@ import retrofit2.Response;
 import tests.BaseTest;
 import util.RandomUtil;
 
-import java.io.IOException;
 
 public class UserSteps {
     private final BaseTest baseTest;
@@ -31,54 +31,63 @@ public class UserSteps {
     }
 
     @Step("Getting list users")
-    public Response<GetUsersResponse> getUserList() throws IOException {
+    @SneakyThrows
+    public Response<GetUsersResponse> getUserList() {
         return userService.getUserList().execute();
     }
 
     @Step("Getting list users on page")
-    public Response<GetUsersResponse> getUserList(int page) throws  IOException {
+    @SneakyThrows
+    public Response<GetUsersResponse> getUserList(int page) {
         return userService.getUserList(page).execute();
     }
 
     @Step("Getting list users on page and per page")
-    public Response<GetUsersResponse> getUserList(int page, int perPage) throws IOException {
+    @SneakyThrows
+    public Response<GetUsersResponse> getUserList(int page, int perPage) {
         return userService.getUserList(page, perPage).execute();
     }
 
     @Step("Getting user by id")
-    public Response<GetUserByIdResponse> getUserById(int id) throws IOException {
+    @SneakyThrows
+    public Response<GetUserByIdResponse> getUserById(int id) {
         return userService.getUserById(id).execute();
     }
 
     @Step("Registration user")
-    public Response<RegisterUserResponse> registerUser(String email, String password) throws IOException {
+    @SneakyThrows
+    public Response<RegisterUserResponse> registerUser(String email, String password) {
         return userService
                 .registerUser(new RegisterOrLoginUserRequest(email, password))
                 .execute();
     }
 
     @Step("Logout user")
-    public Response<Void> logoutUser() throws IOException {
+    @SneakyThrows
+    public Response<Void> logoutUser() {
         return userService.logoutUser().execute();
     }
 
     @Step("Login user")
-    public Response<LoginUserResponse> loginUser(String email, String password) throws IOException {
+    @SneakyThrows
+    public Response<LoginUserResponse> loginUser(String email, String password) {
         return userService
                 .loginUser(new RegisterOrLoginUserRequest(email, password))
                 .execute();
     }
 
     @Step("Update user")
+    @SneakyThrows
     public Response<UpdateUserResponse> updateUser (
-            int id, String email, String firstName, String lastName, String avatar) throws IOException {
+            int id, String email, String firstName, String lastName, String avatar) {
         return userService.updateUser(
                         id, new UpdateUserRequest(email, firstName, lastName, avatar))
                 .execute();
     }
 
     @Step("Delete user")
-    public Response<Void> deleteUser(int id) throws IOException {
+    @SneakyThrows
+    public Response<Void> deleteUser(int id) {
         return userService.deleteUser(id)
                 .execute();
     }

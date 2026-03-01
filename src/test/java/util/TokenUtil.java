@@ -5,12 +5,11 @@ import models.response.appuser.RootVerifyTokenResponse;
 import retrofit2.Response;
 import steps.AppUserSteps;
 
-import java.io.IOException;
 
 public class TokenUtil {
     private static String sessionToken;
 
-    public static void setToken(AppUserSteps appUserStep) throws IOException {
+    public static void setToken(AppUserSteps appUserStep) {
         if (sessionToken == null || sessionToken.isEmpty()) {
             Response<RootLoginUserResponse> responseLogin = appUserStep.loginUser();
             appUserStep.checkResponseIsSuccessful(responseLogin);

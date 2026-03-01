@@ -5,6 +5,7 @@ import client.ApiKeyClient;
 import config.ConfigProvider;
 import io.qameta.allure.Step;
 import lombok.Getter;
+import lombok.SneakyThrows;
 import models.request.appuser.AddUserProjectRequest;
 import models.request.appuser.LoginUserRequest;
 import models.request.appuser.UpdateUserRequest;
@@ -14,7 +15,6 @@ import org.assertj.core.api.Assertions;
 import retrofit2.Response;
 import tests.BaseTest;
 import util.RandomUtil;
-import java.io.IOException;
 
 public class AppUserSteps {
     private final BaseTest baseTest;
@@ -32,65 +32,77 @@ public class AppUserSteps {
     private String getToken() { return ConfigProvider.getToken(); }
 
     @Step("Login user")
-    public Response<RootLoginUserResponse> loginUser() throws IOException {
+    @SneakyThrows
+    public Response<RootLoginUserResponse> loginUser() {
         return appUserServiceForApiKey
                 .loginUser(new LoginUserRequest(
                         getUserEmail(), getProjectId())).execute();
     }
 
     @Step("Verify token")
-    public Response<RootVerifyTokenResponse> verifyToken() throws IOException {
+    @SneakyThrows
+    public Response<RootVerifyTokenResponse> verifyToken() {
         return appUserServiceForApiKey.verifyToken(new VerifyTokenRequest(baseTest.getTokenApp()))
                 .execute();
     }
 
     @Step("Get current user info")
-    public Response<RootUserMeResponse> getMeUser() throws IOException {
+    @SneakyThrows
+    public Response<RootUserMeResponse> getMeUser() {
         return appUserServiceForApiKey.getMeUser().execute();
     }
 
     @Step("Get list users")
-    public Response<RootGetListUsersResponse> getListUsers() throws IOException {
+    @SneakyThrows
+    public Response<RootGetListUsersResponse> getListUsers() {
         return appUserServiceForApiKey.getListUsers().execute();
     }
 
     @Step("Get list users on limit")
-    public Response<RootGetListUsersResponse> getListUsers(int limit) throws IOException {
+    @SneakyThrows
+    public Response<RootGetListUsersResponse> getListUsers(int limit) {
         return appUserServiceForApiKey.getListUsers(limit).execute();
     }
 
     @Step("Add user to project")
-    public Response<RootAddOrUpdateUserProjectResponse> addUserToProject(String email) throws IOException {
+    @SneakyThrows
+    public Response<RootAddOrUpdateUserProjectResponse> addUserToProject(String email) {
         return appUserServiceForApiKey.addUserToProject(new AddUserProjectRequest(email)).execute();
     }
 
     @Step("Get user by ID")
-    public Response<RootGetUserByIdResponse> getUserById(String id) throws IOException {
+    @SneakyThrows
+    public Response<RootGetUserByIdResponse> getUserById(String id) {
         return appUserServiceForApiKey.getUserById(id).execute();
     }
 
     @Step("Update user by ID")
-    public Response<RootAddOrUpdateUserProjectResponse> updateUser(String id, String email, String status) throws IOException {
+    @SneakyThrows
+    public Response<RootAddOrUpdateUserProjectResponse> updateUser(String id, String email, String status) {
         return appUserServiceForApiKey.updateUser(id, new UpdateUserRequest(email, status)).execute();
     }
 
     @Step("Delete user by ID")
-    public Response<Void> deleteUser(String id) throws IOException {
+    @SneakyThrows
+    public Response<Void> deleteUser(String id) {
         return appUserServiceForApiKey.deleteUser(id).execute();
     }
 
     @Step("Get list users on project")
-    public Response<RootGetListUsersOnProjectResponse> getListUsersOnProject(String projectId) throws IOException {
+    @SneakyThrows
+    public Response<RootGetListUsersOnProjectResponse> getListUsersOnProject(String projectId) {
         return appUserServiceForApiKey.getListUsersOnProject(projectId).execute();
     }
 
     @Step("Get list users on project with filtration by status")
-    public Response<RootGetListUsersOnProjectResponse> getListUsersOnProject(String projectId, String status) throws IOException {
+    @SneakyThrows
+    public Response<RootGetListUsersOnProjectResponse> getListUsersOnProject(String projectId, String status) {
         return appUserServiceForApiKey.getListUsersOnProject(projectId, status).execute();
     }
 
     @Step("Get count user on project")
-    public Response<GetTotalUsersOnProjectResponse> getTotalUsersOnProjectResponse(String projectId) throws IOException {
+    @SneakyThrows
+    public Response<GetTotalUsersOnProjectResponse> getTotalUsersOnProjectResponse(String projectId) {
         return appUserServiceForApiKey.getTotalUsersOnProject(projectId).execute();
     }
     @Step("Generating email")

@@ -1,11 +1,11 @@
 package client.interceptor;
 
+import lombok.SneakyThrows;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.IOException;
 
 public class BearerInterceptor implements Interceptor {
     private String bearerToken;
@@ -16,7 +16,8 @@ public class BearerInterceptor implements Interceptor {
 
     @NotNull
     @Override
-    public Response intercept(@NotNull Chain chain) throws IOException {
+    @SneakyThrows
+    public Response intercept(@NotNull Chain chain){
         Request oldRequest = chain.request();
 
         if (bearerToken != null && !bearerToken.isEmpty()) {

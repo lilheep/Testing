@@ -1,17 +1,19 @@
 package tests;
 
 import config.ConfigProvider;
+import lombok.SneakyThrows;
 import models.response.appuser.*;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import retrofit2.Response;
 import util.TokenUtil;
 
-import java.io.IOException;
 
 public class AppUserTest extends BaseTest {
+
     @BeforeClass
-    public void setUp() throws IOException {
+    @SneakyThrows
+    public void setUp() {
         TokenUtil.setToken(appUserStep);
         String token = TokenUtil.getToken();
 
@@ -19,13 +21,15 @@ public class AppUserTest extends BaseTest {
     }
 
     @Test
-    public void getInfoCurrentUserTest() throws IOException {
+    @SneakyThrows
+    public void getInfoCurrentUserTest() {
         Response<RootUserMeResponse> response = appUserStep.getMeUser();
         appUserStep.checkResponseIsSuccessful(response);
     }
 
     @Test
-    public void getListUsersTest() throws IOException {
+    @SneakyThrows
+    public void getListUsersTest() {
         int limit = 1;
         Response<RootGetListUsersResponse> response = appUserStep.getListUsers(limit);
         appUserStep.checkResponseIsSuccessful(response);
@@ -34,7 +38,8 @@ public class AppUserTest extends BaseTest {
     }
 
     @Test
-    public void addUserToProjectTest() throws IOException {
+    @SneakyThrows
+    public void addUserToProjectTest() {
         String email = appUserStep.generateEmail("gmail.com");
         Response<RootAddOrUpdateUserProjectResponse> response = appUserStep.addUserToProject(email);
         appUserStep.checkResponseIsSuccessful(response);
@@ -48,7 +53,8 @@ public class AppUserTest extends BaseTest {
     }
 
     @Test
-    public void getUserByIdTest() throws IOException {
+    @SneakyThrows
+    public void getUserByIdTest() {
         String id = appUserStep.getMyUserId();
         Response<RootGetUserByIdResponse> response = appUserStep.getUserById(id);
         appUserStep.checkResponseIsSuccessful(response);
@@ -57,7 +63,8 @@ public class AppUserTest extends BaseTest {
     }
 
     @Test
-    public void updateUserTest() throws IOException {
+    @SneakyThrows
+    public void updateUserTest() {
         String id = appUserStep.getMyUserId();
         String email = appUserStep.getUserEmail();
         String status = "active";
@@ -68,7 +75,8 @@ public class AppUserTest extends BaseTest {
     }
 
     @Test
-    public void deleteUserTest() throws IOException {
+    @SneakyThrows
+    public void deleteUserTest() {
         Response<RootGetListUsersResponse> response = appUserStep.getListUsers();
         appUserStep.checkResponseIsSuccessful(response);
         RootGetListUsersResponse responseBody = appUserStep.checkResponseBodyNotNull(response);
@@ -78,13 +86,15 @@ public class AppUserTest extends BaseTest {
     }
 
     @Test
-    public void getListUsersOnProjectTest() throws IOException {
+    @SneakyThrows
+    public void getListUsersOnProjectTest() {
         Response<RootGetListUsersOnProjectResponse> response = appUserStep.getListUsersOnProject(ConfigProvider.getProjectId());
         appUserStep.checkResponseIsSuccessful(response);
     }
 
     @Test
-    public void getListAllUsersOnProjectTest() throws IOException {
+    @SneakyThrows
+    public void getListAllUsersOnProjectTest() {
         String status = "all";
         Response<RootGetListUsersOnProjectResponse> response = appUserStep.getListUsersOnProject(
                 ConfigProvider.getProjectId(), status
@@ -93,7 +103,8 @@ public class AppUserTest extends BaseTest {
     }
 
     @Test
-    public void getListUsersOnProjectWithFilterTest() throws IOException {
+    @SneakyThrows
+    public void getListUsersOnProjectWithFilterTest() {
         String status = appUserStep.generateStatusUser();
         Response<RootGetListUsersOnProjectResponse> response = appUserStep.
                 getListUsersOnProject(ConfigProvider.getProjectId(), status);
@@ -103,7 +114,8 @@ public class AppUserTest extends BaseTest {
     }
 
     @Test
-    public void getTotalUsersOnProjectTest() throws IOException {
+    @SneakyThrows
+    public void getTotalUsersOnProjectTest() {
         Response<GetTotalUsersOnProjectResponse> responseTotal = appUserStep
                 .getTotalUsersOnProjectResponse(ConfigProvider.getProjectId());
         appUserStep.checkResponseIsSuccessful(responseTotal);

@@ -1,11 +1,10 @@
 package client.interceptor;
 
+import lombok.SneakyThrows;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.jetbrains.annotations.NotNull;
-
-import java.io.IOException;
 
 public class ApiKeyInterceptor implements Interceptor {
     private final String apiKey;
@@ -16,7 +15,8 @@ public class ApiKeyInterceptor implements Interceptor {
 
     @NotNull
     @Override
-    public Response intercept(@NotNull Chain chain) throws IOException {
+    @SneakyThrows
+    public Response intercept(@NotNull Chain chain) {
         Request request = chain.request().newBuilder()
                 .addHeader("x-api-key", apiKey)
                 .build();

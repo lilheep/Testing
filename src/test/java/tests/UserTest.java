@@ -4,11 +4,10 @@ import models.response.user.*;
 import org.assertj.core.api.Assertions;
 import org.testng.annotations.Test;
 import retrofit2.Response;
-import java.io.IOException;
 
 public class UserTest extends BaseTest {
     @Test
-    public void getUsersTest() throws IOException {
+    public void getUsersTest() {
         int page = 1;
         int perPage = 6;
         int total = 12;
@@ -20,7 +19,7 @@ public class UserTest extends BaseTest {
     }
 
     @Test
-    public void getUsersOnPageTest() throws IOException {
+    public void getUsersOnPageTest() {
         int page = 1;
         int perPage = 6;
         int total = 12;
@@ -32,7 +31,7 @@ public class UserTest extends BaseTest {
     }
 
     @Test
-    public void getUsersOnPageAndPerTest() throws IOException {
+    public void getUsersOnPageAndPerTest() {
         int page = 2;
         int perPage = 3;
         int total = 12;
@@ -44,7 +43,7 @@ public class UserTest extends BaseTest {
     }
 
     @Test
-    public void getUserByIdTest() throws IOException {
+    public void getUserByIdTest() {
         int id = userStep.generateValidId();
         Response<GetUserByIdResponse> response = userStep.getUserById(id);
 
@@ -54,7 +53,7 @@ public class UserTest extends BaseTest {
     }
 
     @Test
-    public void registerUserTest() throws IOException {
+    public void registerUserTest() {
         int id = userStep.generateValidId();
         String email;
         String password = userStep.generatePassword();
@@ -75,7 +74,7 @@ public class UserTest extends BaseTest {
     }
 
     @Test
-    public void loginUserTest() throws IOException {
+    public void loginUserTest() {
         int id = userStep.generateValidId();
         String email;
         String password = userStep.generatePassword();
@@ -93,7 +92,7 @@ public class UserTest extends BaseTest {
     }
 
     @Test
-    public void updateUserTest() throws IOException {
+    public void updateUserTest() {
         int id = userStep.generateValidId();
         String email = userStep.generateEmail("gmail.com");
         String firstName = userStep.generateFirstName();
@@ -107,7 +106,7 @@ public class UserTest extends BaseTest {
         userStep.checkResponseIsSuccessful(response);
     }
     @Test
-    public void deleteUserTest() throws IOException {
+    public void deleteUserTest() {
         int id = userStep.generateValidId();
         Response<Void> response = userStep.deleteUser(id);
 
@@ -115,7 +114,7 @@ public class UserTest extends BaseTest {
     }
 
     @Test
-    public void logoutUserTest() throws IOException {
+    public void logoutUserTest() {
         int id = userStep.generateValidId();
         String email;
         String password = userStep.generatePassword();

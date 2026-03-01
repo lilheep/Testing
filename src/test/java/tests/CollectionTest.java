@@ -9,11 +9,10 @@ import org.testng.annotations.Test;
 import retrofit2.Response;
 import util.TokenUtil;
 
-import java.io.IOException;
 
 public class CollectionTest extends BaseTest {
     @BeforeClass
-    public void setUp() throws IOException {
+    public void setUp() {
         this.setSteps();
         TokenUtil.setToken(appUserStep);
         String token = TokenUtil.getToken();
@@ -23,7 +22,7 @@ public class CollectionTest extends BaseTest {
         createRecords();
     }
 
-    private void createCollection() throws IOException {
+    private void createCollection() {
         Response<RootGetCollectionsResponse> responseListCollections = collectionStep.getListCollections();
         collectionStep.checkResponseIsSuccessful(responseListCollections);
         RootGetCollectionsResponse responseListCollectionsBody = collectionStep.checkResponseBodyNotNull(responseListCollections);
@@ -42,7 +41,7 @@ public class CollectionTest extends BaseTest {
         collectionStep.checkResponseIsSuccessful(response);
     }
 
-    private void createRecords() throws IOException {
+    private void createRecords() {
         String slug = ConfigProvider.getSlug();
         String messageFirst = "example_1";
         String messageSecond = "example_2";
@@ -57,7 +56,7 @@ public class CollectionTest extends BaseTest {
     }
 
     @Test
-    public void updateCollectionTest() throws IOException {
+    public void updateCollectionTest() {
         String slug = ConfigProvider.getSlug();
         String visibility = "private";
         Response<RootGetCollectionBySlugResponse> responseUpdateCollection = collectionStep.updateCollection(slug, visibility);
@@ -72,13 +71,13 @@ public class CollectionTest extends BaseTest {
     }
 
     @Test
-    public void getListCollectionsTest() throws IOException {
+    public void getListCollectionsTest() {
         Response<RootGetCollectionsResponse> response = collectionStep.getListCollections();
         collectionStep.checkResponseIsSuccessful(response);
     }
 
     @Test
-    public void getCollectionBySlugTest() throws IOException {
+    public void getCollectionBySlugTest() {
         String slug = ConfigProvider.getSlug();
         Response<RootGetCollectionBySlugResponse> response = collectionStep.getCollectionBySlug(slug);
         collectionStep.checkResponseIsSuccessful(response);
@@ -87,7 +86,7 @@ public class CollectionTest extends BaseTest {
     }
 
     @Test
-    public void getListRecordsTest() throws IOException {
+    public void getListRecordsTest() {
         String slug = ConfigProvider.getSlug();
         Response<RootGetListRecordsResponse> response = collectionStep.getListRecords(slug);
         if (response.code() == 200) System.out.println(response.headers());
@@ -95,7 +94,7 @@ public class CollectionTest extends BaseTest {
     }
 
     @Test
-    public void getListRecordsOnLimitTest() throws IOException {
+    public void getListRecordsOnLimitTest() {
         String slug = ConfigProvider.getSlug();
         int limit = 1;
         Response<RootGetListRecordsResponse> response = collectionStep.getListRecords(slug, limit);
@@ -105,7 +104,7 @@ public class CollectionTest extends BaseTest {
     }
 
     @Test
-    public void getRecordByIdTest() throws IOException {
+    public void getRecordByIdTest() {
         String slug = ConfigProvider.getSlug();
         Response<RootGetListRecordsResponse> responseListRecords = collectionStep.getListRecords(slug);
         collectionStep.checkResponseIsSuccessful(responseListRecords);
@@ -117,7 +116,7 @@ public class CollectionTest extends BaseTest {
     }
 
     @Test
-    public void updateRecordTest() throws IOException {
+    public void updateRecordTest() {
         String slug = ConfigProvider.getSlug();
         String newMessage = "new message";
         Response<RootGetListRecordsResponse> responseListRecords = collectionStep.getListRecords(slug);
@@ -137,7 +136,7 @@ public class CollectionTest extends BaseTest {
     }
 
     @Test
-    public void deleteRecordTest() throws IOException {
+    public void deleteRecordTest() {
         String slug = ConfigProvider.getSlug();
         Response<RootGetListRecordsResponse> responseListRecords = collectionStep.getListRecords(slug);
         collectionStep.checkResponseIsSuccessful(responseListRecords);
@@ -152,7 +151,7 @@ public class CollectionTest extends BaseTest {
     }
 
     @AfterSuite
-    public void deleteCollection() throws IOException {
+    public void deleteCollection() {
         TokenUtil.setToken(appUserStep);
         String token = TokenUtil.getToken();
         collectionStep.getApiKeyClient().setBearerToken(token);
